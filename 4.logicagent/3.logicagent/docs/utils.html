@@ -1,0 +1,1043 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <meta http-equiv="Content-Style-Type" content="text/css">
+  <title>utils.py</title>
+  <meta name="Generator" content="Cocoa HTML Writer">
+  <meta name="CocoaVersion" content="2022.7">
+  <style type="text/css">
+    p.p2 {margin: 0.0px 0.0px 6.0px 0.0px; font: 12.0px Times; color: #000000; -webkit-text-stroke: #000000; min-height: 14.0px}
+    p.p3 {margin: 0.0px 0.0px 0.0px 0.0px; font: 12.0px Courier; color: #0f7001; -webkit-text-stroke: #0f7001}
+    p.p4 {margin: 0.0px 0.0px 0.0px 0.0px; font: 12.0px Courier; color: #0f7001; -webkit-text-stroke: #0f7001; min-height: 14.0px}
+    p.p5 {margin: 0.0px 0.0px 0.0px 0.0px; font: 12.0px Courier; color: #760002; -webkit-text-stroke: #760002}
+    p.p6 {margin: 0.0px 0.0px 0.0px 0.0px; font: 12.0px Courier; color: #760002; -webkit-text-stroke: #760002; min-height: 14.0px}
+    p.p7 {margin: 0.0px 0.0px 0.0px 0.0px; font: 12.0px Courier; color: #000000; -webkit-text-stroke: #000000}
+    p.p8 {margin: 0.0px 0.0px 0.0px 0.0px; font: 12.0px Courier; color: #000000; -webkit-text-stroke: #000000; min-height: 14.0px}
+    p.p9 {margin: 0.0px 0.0px 0.0px 0.0px; font: 12.0px Courier; color: #fb0007; -webkit-text-stroke: #fb0007}
+    p.p10 {margin: 0.0px 0.0px 0.0px 0.0px; font: 12.0px Courier; color: #fb0007; -webkit-text-stroke: #fb0007; min-height: 14.0px}
+    p.p11 {margin: 0.0px 0.0px 0.0px 0.0px; font: 12.0px Courier; color: #0000ff; -webkit-text-stroke: #0000ff}
+    p.p12 {margin: 0.0px 0.0px 0.0px 0.0px; font: 12.0px Courier; color: #0000ff; -webkit-text-stroke: #0000ff; min-height: 14.0px}
+    span.s1 {font-kerning: none}
+    span.s2 {text-decoration: underline ; font-kerning: none; color: #0000e9; -webkit-text-stroke: 0px #0000e9}
+    span.s3 {font-kerning: none; color: #0000ff; -webkit-text-stroke: 0px #0000ff}
+    span.s4 {font-kerning: none; color: #fb0007; -webkit-text-stroke: 0px #fb0007}
+    span.s5 {font-kerning: none; color: #760002; -webkit-text-stroke: 0px #760002}
+    span.s6 {font-kerning: none; color: #000000; -webkit-text-stroke: 0px #000000}
+    span.s7 {font-kerning: none; color: #0f7001; -webkit-text-stroke: 0px #0f7001}
+  </style>
+</head>
+<body>
+<h3 style="margin: 0.0px 0.0px 14.0px 0.0px; font: 14.0px Times; color: #000000; -webkit-text-stroke: #000000"><span class="s1"><b>utils.py (</b><a href="file:///Users/yzhan442/Dropbox%20(ASU)/Teaching/CSE%20471%20Fall%2023/project/3.logicagent%202/utils.py"><span class="s2"><b>original</b></span></a><b>)</b></span></h3>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p3"><span class="s1"><i># utils.py</i></span></p>
+<p class="p3"><span class="s1"><i># --------</i></span></p>
+<p class="p3"><span class="s1"><i># Licensing Information:</i></span></p>
+<p class="p3"><span class="s1"><i># Please DO NOT DISTRIBUTE OR PUBLISH solutions to this project.</i></span></p>
+<p class="p3"><span class="s1"><i># You are free to use and extend these projects for EDUCATIONAL PURPOSES ONLY.</i></span></p>
+<p class="p3"><span class="s1"><i># The Hunt The Wumpus AI project was developed at University of Arizona</i></span></p>
+<p class="p3"><span class="s1"><i># by Clay Morrison (clayton@sista.arizona.edu), spring 2013.</i></span></p>
+<p class="p3"><span class="s1"><i># This project extends the python code provided by Peter Norvig as part of</i></span></p>
+<p class="p3"><span class="s1"><i># the Artificial Intelligence: A Modern Approach (AIMA) book example code;</i></span></p>
+<p class="p3"><span class="s1"><i># see http://aima.cs.berkeley.edu/code.html</i></span></p>
+<p class="p3"><span class="s1"><i># In particular, the following files come directly from the AIMA python</i></span></p>
+<p class="p3"><span class="s1"><i># code: ['agents.py', 'logic.py', 'search.py', 'utils.py']</i></span></p>
+<p class="p3"><span class="s1"><i># ('logic.py' has been modified by Clay Morrison in locations with the</i></span></p>
+<p class="p3"><span class="s1"><i># comment 'CTM')</i></span></p>
+<p class="p3"><span class="s1"><i># The file ['minisat.py'] implements a slim system call wrapper to the minisat</i></span></p>
+<p class="p3"><span class="s1"><i># (see http://minisat.se) SAT solver, and is directly based on the satispy</i></span></p>
+<p class="p3"><span class="s1"><i># python project, see https://github.com/netom/satispy .</i></span></p>
+<p class="p4"><span class="s1"><i></i></span><br></p>
+<p class="p5"><span class="s1">"""Provide some widely useful utilities. Safe for "from utils import *".</span></p>
+<p class="p6"><span class="s1"></span><br></p>
+<p class="p5"><span class="s1">"""</span></p>
+<p class="p6"><span class="s1"></span><br></p>
+<p class="p7"><span class="s3"><b>from </b></span><span class="s1">__future__ </span><span class="s3"><b>import </b></span><span class="s1">generators</span></p>
+<p class="p7"><span class="s3"><b>import </b></span><span class="s1">operator<b>, </b>math<b>, </b>random<b>, </b>copy<b>, </b>sys<b>, </b>os<b>.</b>path<b>, </b>bisect<b>, </b>re</span></p>
+<p class="p8"><span class="s1"></span><br></p>
+<p class="p7"><span class="s3"><b>assert </b></span><span class="s1"><b>(</b></span><span class="s4">3</span><span class="s1"><b>,</b></span><span class="s4">6</span><span class="s1"><b>) &lt;= </b>sys<b>.</b>version_info <b>&lt; (</b></span><span class="s4">3</span><span class="s1"><b>,8), </b></span><span class="s5">"""\</span></p>
+<p class="p5"><span class="s1">This code is meant for Python 3.6 through 3.7.</span></p>
+<p class="p5"><span class="s1">You might find that the parts you care about still work in older</span></p>
+<p class="p5"><span class="s1">Pythons or happen to work in newer ones, but you're on your own --</span></p>
+<p class="p5"><span class="s1">edit utils.py if you want to try it."""</span></p>
+<p class="p6"><span class="s1"></span><br></p>
+<p class="p3"><span class="s1"><i>#______________________________________________________________________________</i></span></p>
+<p class="p3"><span class="s1"><i># Compatibility with Python 2.2, 2.3, and 2.4</i></span></p>
+<p class="p4"><span class="s1"><i></i></span><br></p>
+<p class="p3"><span class="s1"><i># The AIMA code was originally designed to run in Python 2.2 and up.</i></span></p>
+<p class="p3"><span class="s1"><i># The first part of this file implements for Python 2.2 through 2.4</i></span></p>
+<p class="p3"><span class="s1"><i># the parts of 2.5 that the original code relied on. Now we're</i></span></p>
+<p class="p3"><span class="s1"><i># starting to go beyond what can be filled in this way, but here's</i></span></p>
+<p class="p3"><span class="s1"><i># the compatibility code still since it doesn't hurt:</i></span></p>
+<p class="p4"><span class="s1"><i></i></span><br></p>
+<p class="p3"><span class="s3"><b>try</b></span><span class="s6"><b>: </b>bool<b>, </b></span><span class="s3"><b>True</b></span><span class="s6"><b>, </b></span><span class="s3"><b>False </b></span><span class="s1"><i>## Introduced in 2.3</i></span></p>
+<p class="p7"><span class="s3"><b>except </b></span><span class="s1">NameError<b>:</b></span></p>
+<p class="p7"><span class="s1"><b><span class="Apple-converted-space">    </span></b></span><span class="s3"><b>class </b></span><span class="s1">bool<b>(</b>int<b>):</b></span></p>
+<p class="p9"><span class="s6"><b><span class="Apple-converted-space">        </span></b></span><span class="s1">"Simple implementation of Booleans, as in PEP 285"</span></p>
+<p class="p7"><span class="s4"><span class="Apple-converted-space">        </span></span><span class="s3"><b>def </b></span><span class="s1">__init__<b>(</b></span><span class="s3">self</span><span class="s1"><b>, </b>val<b>): </b></span><span class="s3">self</span><span class="s1"><b>.</b>val <b>= </b>val</span></p>
+<p class="p7"><span class="s1"><span class="Apple-converted-space">        </span></span><span class="s3"><b>def </b></span><span class="s1">__int__<b>(</b></span><span class="s3">self</span><span class="s1"><b>): </b></span><span class="s3"><b>return </b>self</span><span class="s1"><b>.</b>val</span></p>
+<p class="p7"><span class="s1"><span class="Apple-converted-space">        </span></span><span class="s3"><b>def </b></span><span class="s1">__repr__<b>(</b></span><span class="s3">self</span><span class="s1"><b>): </b></span><span class="s3"><b>return </b></span><span class="s1"><b>(</b></span><span class="s4">'False'</span><span class="s1"><b>, </b></span><span class="s4">'True'</span><span class="s1"><b>)[</b></span><span class="s3">self</span><span class="s1"><b>.</b>val<b>]</b></span></p>
+<p class="p8"><span class="s1"><b></b></span><br></p>
+<p class="p7"><span class="s1"><b><span class="Apple-converted-space">    </span></b></span><span class="s3"><b>True</b></span><span class="s1"><b>, </b></span><span class="s3"><b>False </b></span><span class="s1"><b>= </b>bool<b>(</b></span><span class="s4">1</span><span class="s1"><b>), </b>bool<b>(</b></span><span class="s4">0</span><span class="s1"><b>)</b></span></p>
+<p class="p8"><span class="s1"><b></b></span><br></p>
+<p class="p3"><span class="s3"><b>try</b></span><span class="s6"><b>: </b>sum </span><span class="s1"><i>## Introduced in 2.3</i></span></p>
+<p class="p7"><span class="s3"><b>except </b></span><span class="s1">NameError<b>:</b></span></p>
+<p class="p7"><span class="s1"><b><span class="Apple-converted-space">    </span></b></span><span class="s3"><b>def </b></span><span class="s1">sum<b>(</b>seq<b>, </b>start<b>=</b></span><span class="s4">0</span><span class="s1"><b>):</b></span></p>
+<p class="p5"><span class="s6"><b><span class="Apple-converted-space">        </span></b></span><span class="s1">"""Sum the elements of seq.</span></p>
+<p class="p5"><span class="s1"><span class="Apple-converted-space">        </span>&gt;&gt;&gt; sum([1, 2, 3])</span></p>
+<p class="p5"><span class="s1"><span class="Apple-converted-space">        </span>6</span></p>
+<p class="p5"><span class="s1"><span class="Apple-converted-space">        </span>"""</span></p>
+<p class="p7"><span class="s5"><span class="Apple-converted-space">        </span></span><span class="s3"><b>return </b></span><span class="s1">reduce<b>(</b>operator<b>.</b>add<b>, </b>seq<b>, </b>start<b>)</b></span></p>
+<p class="p8"><span class="s1"><b></b></span><br></p>
+<p class="p3"><span class="s3"><b>try</b></span><span class="s6"><b>: </b>enumerate<span class="Apple-converted-space">  </span></span><span class="s1"><i>## Introduced in 2.3</i></span></p>
+<p class="p7"><span class="s3"><b>except </b></span><span class="s1">NameError<b>:</b></span></p>
+<p class="p7"><span class="s1"><b><span class="Apple-converted-space">    </span></b></span><span class="s3"><b>def </b></span><span class="s1">enumerate<b>(</b>collection<b>):</b></span></p>
+<p class="p5"><span class="s6"><b><span class="Apple-converted-space">        </span></b></span><span class="s1">"""Return an iterator that enumerates pairs of (i, c[i]). PEP 279.</span></p>
+<p class="p5"><span class="s1"><span class="Apple-converted-space">        </span>&gt;&gt;&gt; list(enumerate('abc'))</span></p>
+<p class="p5"><span class="s1"><span class="Apple-converted-space">        </span>[(0, 'a'), (1, 'b'), (2, 'c')]</span></p>
+<p class="p5"><span class="s1"><span class="Apple-converted-space">        </span>"""</span></p>
+<p class="p3"><span class="s5"><span class="Apple-converted-space">        </span></span><span class="s1"><i>## Copied from PEP 279</i></span></p>
+<p class="p3"><span class="s1"><i><span class="Apple-converted-space">        </span></i></span><span class="s6">i <b>= </b></span><span class="s4">0</span></p>
+<p class="p7"><span class="s4"><span class="Apple-converted-space">        </span></span><span class="s1">it <b>= </b>iter<b>(</b>collection<b>)</b></span></p>
+<p class="p7"><span class="s1"><b><span class="Apple-converted-space">        </span></b></span><span class="s3"><b>while </b></span><span class="s4">1</span><span class="s1"><b>:</b></span></p>
+<p class="p7"><span class="s1"><b><span class="Apple-converted-space">            </span></b></span><span class="s3"><b>yield </b></span><span class="s1"><b>(</b>i<b>, </b>it<b>.</b>next<b>())</b></span></p>
+<p class="p7"><span class="s1"><b><span class="Apple-converted-space">            </span></b>i <b>+= </b></span><span class="s4">1</span></p>
+<p class="p10"><span class="s1"></span><br></p>
+<p class="p10"><span class="s1"></span><br></p>
+<p class="p3"><span class="s3"><b>try</b></span><span class="s6"><b>: </b>reversed </span><span class="s1"><i>## Introduced in 2.4</i></span></p>
+<p class="p7"><span class="s3"><b>except </b></span><span class="s1">NameError<b>:</b></span></p>
+<p class="p7"><span class="s1"><b><span class="Apple-converted-space">    </span></b></span><span class="s3"><b>def </b></span><span class="s1">reversed<b>(</b>seq<b>):</b></span></p>
+<p class="p5"><span class="s6"><b><span class="Apple-converted-space">        </span></b></span><span class="s1">"""Iterate over x in reverse order.</span></p>
+<p class="p5"><span class="s1"><span class="Apple-converted-space">        </span>&gt;&gt;&gt; list(reversed([1,2,3]))</span></p>
+<p class="p5"><span class="s1"><span class="Apple-converted-space">        </span>[3, 2, 1]</span></p>
+<p class="p5"><span class="s1"><span class="Apple-converted-space">        </span>"""</span></p>
+<p class="p7"><span class="s5"><span class="Apple-converted-space">        </span></span><span class="s3"><b>if </b></span><span class="s1">hasattr<b>(</b>seq<b>, </b></span><span class="s4">'keys'</span><span class="s1"><b>):</b></span></p>
+<p class="p9"><span class="s6"><b><span class="Apple-converted-space">            </span></b></span><span class="s3"><b>raise </b></span><span class="s6">TypeError<b>(</b></span><span class="s1">"mappings do not support reverse iteration"</span><span class="s6"><b>)</b></span></p>
+<p class="p7"><span class="s1"><b><span class="Apple-converted-space">        </span></b>i <b>= </b>len<b>(</b>seq<b>)</b></span></p>
+<p class="p7"><span class="s1"><b><span class="Apple-converted-space">        </span></b></span><span class="s3"><b>while </b></span><span class="s1">i <b>&gt; </b></span><span class="s4">0</span><span class="s1"><b>:</b></span></p>
+<p class="p7"><span class="s1"><b><span class="Apple-converted-space">            </span></b>i <b>-= </b></span><span class="s4">1</span></p>
+<p class="p9"><span class="s1"><span class="Apple-converted-space">            </span></span><span class="s3"><b>yield </b></span><span class="s6">seq<b>[</b>i<b>]</b></span></p>
+<p class="p8"><span class="s1"><b></b></span><br></p>
+<p class="p8"><span class="s1"><b></b></span><br></p>
+<p class="p3"><span class="s3"><b>try</b></span><span class="s6"><b>: </b>sorted </span><span class="s1"><i>## Introduced in 2.4</i></span></p>
+<p class="p7"><span class="s3"><b>except </b></span><span class="s1">NameError<b>:</b></span></p>
+<p class="p7"><span class="s1"><b><span class="Apple-converted-space">    </span></b></span><span class="s3"><b>def </b></span><span class="s1">sorted<b>(</b>seq<b>, </b>cmp<b>=</b></span><span class="s3">None</span><span class="s1"><b>, </b>key<b>=</b></span><span class="s3">None</span><span class="s1"><b>, </b>reverse<b>=</b></span><span class="s3"><b>False</b></span><span class="s1"><b>):</b></span></p>
+<p class="p5"><span class="s6"><b><span class="Apple-converted-space">        </span></b></span><span class="s1">"""Copy seq and sort and return it.</span></p>
+<p class="p5"><span class="s1"><span class="Apple-converted-space">        </span>&gt;&gt;&gt; sorted([3, 1, 2])</span></p>
+<p class="p5"><span class="s1"><span class="Apple-converted-space">        </span>[1, 2, 3]</span></p>
+<p class="p5"><span class="s1"><span class="Apple-converted-space">        </span>"""</span></p>
+<p class="p7"><span class="s5"><span class="Apple-converted-space">        </span></span><span class="s1">seq2 <b>= </b>copy<b>.</b>copy<b>(</b>seq<b>)</b></span></p>
+<p class="p7"><span class="s1"><b><span class="Apple-converted-space">        </span></b></span><span class="s3"><b>if </b></span><span class="s1">key<b>:</b></span></p>
+<p class="p7"><span class="s1"><b><span class="Apple-converted-space">            </span></b></span><span class="s3"><b>if </b></span><span class="s1">cmp <b>== </b></span><span class="s3">None</span><span class="s1"><b>:</b></span></p>
+<p class="p7"><span class="s1"><b><span class="Apple-converted-space">                </span></b>cmp <b>= </b>__builtins__<b>.</b>cmp</span></p>
+<p class="p7"><span class="s1"><span class="Apple-converted-space">            </span>seq2<b>.</b>sort<b>(</b></span><span class="s3"><b>lambda </b></span><span class="s1">x<b>,</b>y<b>: </b>cmp<b>(</b>key<b>(</b>x<b>), </b>key<b>(</b>y<b>)))</b></span></p>
+<p class="p7"><span class="s1"><b><span class="Apple-converted-space">        </span></b></span><span class="s3"><b>else</b></span><span class="s1"><b>:</b></span></p>
+<p class="p7"><span class="s1"><b><span class="Apple-converted-space">            </span></b></span><span class="s3"><b>if </b></span><span class="s1">cmp <b>== </b></span><span class="s3">None</span><span class="s1"><b>:</b></span></p>
+<p class="p7"><span class="s1"><b><span class="Apple-converted-space">                </span></b>seq2<b>.</b>sort<b>()</b></span></p>
+<p class="p7"><span class="s1"><b><span class="Apple-converted-space">            </span></b></span><span class="s3"><b>else</b></span><span class="s1"><b>:</b></span></p>
+<p class="p7"><span class="s1"><b><span class="Apple-converted-space">                </span></b>seq2<b>.</b>sort<b>(</b>cmp<b>)</b></span></p>
+<p class="p7"><span class="s1"><b><span class="Apple-converted-space">        </span></b></span><span class="s3"><b>if </b></span><span class="s1">reverse<b>:</b></span></p>
+<p class="p7"><span class="s1"><b><span class="Apple-converted-space">            </span></b>seq2<b>.</b>reverse<b>()</b></span></p>
+<p class="p7"><span class="s1"><b><span class="Apple-converted-space">        </span></b></span><span class="s3"><b>return </b></span><span class="s1">seq2</span></p>
+<p class="p8"><span class="s1"></span><br></p>
+<p class="p11"><span class="s1"><b>try</b></span><span class="s6"><b>:</b></span></p>
+<p class="p3"><span class="s6"><b><span class="Apple-converted-space">    </span></b>set<b>, </b>frozenset </span><span class="s1"><i>## set builtin introduced in 2.4</i></span></p>
+<p class="p7"><span class="s3"><b>except </b></span><span class="s1">NameError<b>:</b></span></p>
+<p class="p7"><span class="s1"><b><span class="Apple-converted-space">    </span></b></span><span class="s3"><b>try</b></span><span class="s1"><b>:</b></span></p>
+<p class="p3"><span class="s6"><b><span class="Apple-converted-space">        </span></b></span><span class="s3"><b>import </b></span><span class="s6">sets </span><span class="s1"><i>## sets module introduced in 2.3</i></span></p>
+<p class="p7"><span class="s7"><i><span class="Apple-converted-space">        </span></i></span><span class="s1">set<b>, </b>frozenset <b>= </b>sets<b>.</b>Set<b>, </b>sets<b>.</b>ImmutableSet</span></p>
+<p class="p7"><span class="s1"><span class="Apple-converted-space">    </span></span><span class="s3"><b>except </b></span><span class="s1"><b>(</b>NameError<b>, </b>ImportError<b>):</b></span></p>
+<p class="p7"><span class="s1"><b><span class="Apple-converted-space">        </span></b></span><span class="s3"><b>class </b></span><span class="s1">BaseSet<b>:</b></span></p>
+<p class="p9"><span class="s6"><b><span class="Apple-converted-space">            </span></b></span><span class="s1">"set type (see http://docs.python.org/lib/types-set.html)"</span></p>
+<p class="p10"><span class="s1"></span><br></p>
+<p class="p10"><span class="s1"></span><br></p>
+<p class="p7"><span class="s4"><span class="Apple-converted-space">            </span></span><span class="s3"><b>def </b></span><span class="s1">__init__<b>(</b></span><span class="s3">self</span><span class="s1"><b>, </b>elements<b>=[]):</b></span></p>
+<p class="p7"><span class="s1"><b><span class="Apple-converted-space">                </span></b></span><span class="s3">self</span><span class="s1"><b>.</b>dict <b>= {}</b></span></p>
+<p class="p7"><span class="s1"><b><span class="Apple-converted-space">                </span></b></span><span class="s3"><b>for </b></span><span class="s1">e </span><span class="s3"><b>in </b></span><span class="s1">elements<b>:</b></span></p>
+<p class="p7"><span class="s1"><b><span class="Apple-converted-space">                    </span></b></span><span class="s3">self</span><span class="s1"><b>.</b>dict<b>[</b>e<b>] = </b></span><span class="s4">1</span></p>
+<p class="p10"><span class="s1"></span><br></p>
+<p class="p9"><span class="s1"><span class="Apple-converted-space">            </span></span><span class="s3"><b>def </b></span><span class="s6">__len__<b>(</b></span><span class="s3">self</span><span class="s6"><b>):</b></span></p>
+<p class="p7"><span class="s1"><b><span class="Apple-converted-space">                </span></b></span><span class="s3"><b>return </b></span><span class="s1">len<b>(</b></span><span class="s3">self</span><span class="s1"><b>.</b>dict<b>)</b></span></p>
+<p class="p8"><span class="s1"><b></b></span><br></p>
+<p class="p7"><span class="s1"><b><span class="Apple-converted-space">            </span></b></span><span class="s3"><b>def </b></span><span class="s1">__iter__<b>(</b></span><span class="s3">self</span><span class="s1"><b>):</b></span></p>
+<p class="p7"><span class="s1"><b><span class="Apple-converted-space">                </span></b></span><span class="s3"><b>for </b></span><span class="s1">e </span><span class="s3"><b>in </b>self</span><span class="s1"><b>.</b>dict<b>:</b></span></p>
+<p class="p7"><span class="s1"><b><span class="Apple-converted-space">                    </span></b></span><span class="s3"><b>yield </b></span><span class="s1">e</span></p>
+<p class="p8"><span class="s1"></span><br></p>
+<p class="p7"><span class="s1"><span class="Apple-converted-space">            </span></span><span class="s3"><b>def </b></span><span class="s1">__contains__<b>(</b></span><span class="s3">self</span><span class="s1"><b>, </b>element<b>):</b></span></p>
+<p class="p7"><span class="s1"><b><span class="Apple-converted-space">                </span></b></span><span class="s3"><b>return </b></span><span class="s1">element </span><span class="s3"><b>in </b>self</span><span class="s1"><b>.</b>dict</span></p>
+<p class="p8"><span class="s1"></span><br></p>
+<p class="p7"><span class="s1"><span class="Apple-converted-space">            </span></span><span class="s3"><b>def </b></span><span class="s1">issubset<b>(</b></span><span class="s3">self</span><span class="s1"><b>, </b>other<b>):</b></span></p>
+<p class="p7"><span class="s1"><b><span class="Apple-converted-space">                </span></b></span><span class="s3"><b>for </b></span><span class="s1">e </span><span class="s3"><b>in </b>self</span><span class="s1"><b>.</b>dict<b>.</b>keys<b>():</b></span></p>
+<p class="p7"><span class="s1"><b><span class="Apple-converted-space">                    </span></b></span><span class="s3"><b>if </b></span><span class="s1">e </span><span class="s3"><b>not in </b></span><span class="s1">other<b>:</b></span></p>
+<p class="p7"><span class="s1"><b><span class="Apple-converted-space">                        </span></b></span><span class="s3"><b>return False</b></span></p>
+<p class="p11"><span class="s1"><b><span class="Apple-converted-space">                </span>return True</b></span></p>
+<p class="p12"><span class="s1"><b></b></span><br></p>
+<p class="p7"><span class="s3"><b><span class="Apple-converted-space">            </span>def </b></span><span class="s1">issuperset<b>(</b></span><span class="s3">self</span><span class="s1"><b>, </b>other<b>):</b></span></p>
+<p class="p7"><span class="s1"><b><span class="Apple-converted-space">                </span></b></span><span class="s3"><b>for </b></span><span class="s1">e </span><span class="s3"><b>in </b></span><span class="s1">other<b>:</b></span></p>
+<p class="p7"><span class="s1"><b><span class="Apple-converted-space">                    </span></b></span><span class="s3"><b>if </b></span><span class="s1">e </span><span class="s3"><b>not in </b>self</span><span class="s1"><b>:</b></span></p>
+<p class="p7"><span class="s1"><b><span class="Apple-converted-space">                        </span></b></span><span class="s3"><b>return False</b></span></p>
+<p class="p11"><span class="s1"><b><span class="Apple-converted-space">                </span>return True</b></span></p>
+<p class="p12"><span class="s1"><b></b></span><br></p>
+<p class="p12"><span class="s1"><b></b></span><br></p>
+<p class="p11"><span class="s1"><b><span class="Apple-converted-space">            </span>def </b></span><span class="s6">union<b>(</b></span><span class="s1">self</span><span class="s6"><b>, </b>other<b>):</b></span></p>
+<p class="p7"><span class="s1"><b><span class="Apple-converted-space">                </span></b></span><span class="s3"><b>return </b></span><span class="s1">type<b>(</b></span><span class="s3">self</span><span class="s1"><b>)(</b>list<b>(</b></span><span class="s3">self</span><span class="s1"><b>) + </b>list<b>(</b>other<b>))</b></span></p>
+<p class="p8"><span class="s1"><b></b></span><br></p>
+<p class="p7"><span class="s1"><b><span class="Apple-converted-space">            </span></b></span><span class="s3"><b>def </b></span><span class="s1">intersection<b>(</b></span><span class="s3">self</span><span class="s1"><b>, </b>other<b>):</b></span></p>
+<p class="p7"><span class="s1"><b><span class="Apple-converted-space">                </span></b></span><span class="s3"><b>return </b></span><span class="s1">type<b>(</b></span><span class="s3">self</span><span class="s1"><b>)([</b>e </span><span class="s3"><b>for </b></span><span class="s1">e </span><span class="s3"><b>in </b>self</span><span class="s1"><b>.</b>dict </span><span class="s3"><b>if </b></span><span class="s1">e </span><span class="s3"><b>in </b></span><span class="s1">other<b>])</b></span></p>
+<p class="p8"><span class="s1"><b></b></span><br></p>
+<p class="p7"><span class="s1"><b><span class="Apple-converted-space">            </span></b></span><span class="s3"><b>def </b></span><span class="s1">difference<b>(</b></span><span class="s3">self</span><span class="s1"><b>, </b>other<b>):</b></span></p>
+<p class="p7"><span class="s1"><b><span class="Apple-converted-space">                </span></b></span><span class="s3"><b>return </b></span><span class="s1">type<b>(</b></span><span class="s3">self</span><span class="s1"><b>)([</b>e </span><span class="s3"><b>for </b></span><span class="s1">e </span><span class="s3"><b>in </b>self</span><span class="s1"><b>.</b>dict </span><span class="s3"><b>if </b></span><span class="s1">e </span><span class="s3"><b>not in </b></span><span class="s1">other<b>])</b></span></p>
+<p class="p8"><span class="s1"><b></b></span><br></p>
+<p class="p7"><span class="s1"><b><span class="Apple-converted-space">            </span></b></span><span class="s3"><b>def </b></span><span class="s1">symmetric_difference<b>(</b></span><span class="s3">self</span><span class="s1"><b>, </b>other<b>):</b></span></p>
+<p class="p7"><span class="s1"><b><span class="Apple-converted-space">                </span></b></span><span class="s3"><b>return </b></span><span class="s1">type<b>(</b></span><span class="s3">self</span><span class="s1"><b>)([</b>e </span><span class="s3"><b>for </b></span><span class="s1">e </span><span class="s3"><b>in </b>self</span><span class="s1"><b>.</b>dict </span><span class="s3"><b>if </b></span><span class="s1">e </span><span class="s3"><b>not in </b></span><span class="s1">other<b>] +</b></span></p>
+<p class="p7"><span class="s1"><b><span class="Apple-converted-space">                                  </span>[</b>e </span><span class="s3"><b>for </b></span><span class="s1">e </span><span class="s3"><b>in </b></span><span class="s1">other </span><span class="s3"><b>if </b></span><span class="s1">e </span><span class="s3"><b>not in </b>self</span><span class="s1"><b>.</b>dict<b>])</b></span></p>
+<p class="p8"><span class="s1"><b></b></span><br></p>
+<p class="p7"><span class="s1"><b><span class="Apple-converted-space">            </span></b></span><span class="s3"><b>def </b></span><span class="s1">copy<b>(</b></span><span class="s3">self</span><span class="s1"><b>):</b></span></p>
+<p class="p7"><span class="s1"><b><span class="Apple-converted-space">                </span></b></span><span class="s3"><b>return </b></span><span class="s1">type<b>(</b></span><span class="s3">self</span><span class="s1"><b>)(</b></span><span class="s3">self</span><span class="s1"><b>.</b>dict<b>)</b></span></p>
+<p class="p8"><span class="s1"><b></b></span><br></p>
+<p class="p7"><span class="s1"><b><span class="Apple-converted-space">            </span></b></span><span class="s3"><b>def </b></span><span class="s1">__repr__<b>(</b></span><span class="s3">self</span><span class="s1"><b>):</b></span></p>
+<p class="p7"><span class="s1"><b><span class="Apple-converted-space">                </span></b>elements <b>= </b></span><span class="s4">", "</span><span class="s1"><b>.</b>join<b>(</b>map<b>(</b>str<b>, </b></span><span class="s3">self</span><span class="s1"><b>.</b>dict<b>))</b></span></p>
+<p class="p7"><span class="s1"><b><span class="Apple-converted-space">                </span></b></span><span class="s3"><b>return </b></span><span class="s4">"%s([%s])" </span><span class="s1"><b>% (</b>type<b>(</b></span><span class="s3">self</span><span class="s1"><b>).</b>__name__<b>, </b>elements<b>)</b></span></p>
+<p class="p8"><span class="s1"><b></b></span><br></p>
+<p class="p7"><span class="s1"><b><span class="Apple-converted-space">            </span></b>__le__ <b>= </b>issubset</span></p>
+<p class="p7"><span class="s1"><span class="Apple-converted-space">            </span>__ge__ <b>= </b>issuperset</span></p>
+<p class="p7"><span class="s1"><span class="Apple-converted-space">            </span>__or__ <b>= </b>union</span></p>
+<p class="p7"><span class="s1"><span class="Apple-converted-space">            </span>__and__ <b>= </b>intersection</span></p>
+<p class="p7"><span class="s1"><span class="Apple-converted-space">            </span>__sub__ <b>= </b>difference</span></p>
+<p class="p7"><span class="s1"><span class="Apple-converted-space">            </span>__xor__ <b>= </b>symmetric_difference</span></p>
+<p class="p8"><span class="s1"></span><br></p>
+<p class="p7"><span class="s1"><span class="Apple-converted-space">        </span></span><span class="s3"><b>class </b></span><span class="s1">frozenset<b>(</b>BaseSet<b>):</b></span></p>
+<p class="p9"><span class="s6"><b><span class="Apple-converted-space">            </span></b></span><span class="s1">"A frozenset is a BaseSet that has a hash value and is immutable."</span></p>
+<p class="p10"><span class="s1"></span><br></p>
+<p class="p7"><span class="s4"><span class="Apple-converted-space">            </span></span><span class="s3"><b>def </b></span><span class="s1">__init__<b>(</b></span><span class="s3">self</span><span class="s1"><b>, </b>elements<b>=[]):</b></span></p>
+<p class="p7"><span class="s1"><b><span class="Apple-converted-space">                </span></b>BaseSet<b>.</b>__init__<b>(</b>elements<b>)</b></span></p>
+<p class="p7"><span class="s1"><b><span class="Apple-converted-space">                </span></b></span><span class="s3">self</span><span class="s1"><b>.</b>hash <b>= </b></span><span class="s4">0</span></p>
+<p class="p9"><span class="s1"><span class="Apple-converted-space">                </span></span><span class="s3"><b>for </b></span><span class="s6">e </span><span class="s3"><b>in </b>self</span><span class="s6"><b>:</b></span></p>
+<p class="p7"><span class="s1"><b><span class="Apple-converted-space">                    </span></b></span><span class="s3">self</span><span class="s1"><b>.</b>hash <b>|= </b>hash<b>(</b>e<b>)</b></span></p>
+<p class="p8"><span class="s1"><b></b></span><br></p>
+<p class="p7"><span class="s1"><b><span class="Apple-converted-space">            </span></b></span><span class="s3"><b>def </b></span><span class="s1">__hash__<b>(</b></span><span class="s3">self</span><span class="s1"><b>):</b></span></p>
+<p class="p7"><span class="s1"><b><span class="Apple-converted-space">                </span></b></span><span class="s3"><b>return </b>self</span><span class="s1"><b>.</b>hash</span></p>
+<p class="p8"><span class="s1"></span><br></p>
+<p class="p7"><span class="s1"><span class="Apple-converted-space">        </span></span><span class="s3"><b>class </b></span><span class="s1">set<b>(</b>BaseSet<b>):</b></span></p>
+<p class="p9"><span class="s6"><b><span class="Apple-converted-space">            </span></b></span><span class="s1">"A set is a BaseSet that does not have a hash, but is mutable."</span></p>
+<p class="p10"><span class="s1"></span><br></p>
+<p class="p7"><span class="s4"><span class="Apple-converted-space">            </span></span><span class="s3"><b>def </b></span><span class="s1">update<b>(</b></span><span class="s3">self</span><span class="s1"><b>, </b>other<b>):</b></span></p>
+<p class="p7"><span class="s1"><b><span class="Apple-converted-space">                </span></b></span><span class="s3"><b>for </b></span><span class="s1">e </span><span class="s3"><b>in </b></span><span class="s1">other<b>:</b></span></p>
+<p class="p7"><span class="s1"><b><span class="Apple-converted-space">                    </span></b></span><span class="s3">self</span><span class="s1"><b>.</b>add<b>(</b>e<b>)</b></span></p>
+<p class="p7"><span class="s1"><b><span class="Apple-converted-space">                </span></b></span><span class="s3"><b>return </b>self</span></p>
+<p class="p12"><span class="s1"></span><br></p>
+<p class="p7"><span class="s3"><span class="Apple-converted-space">            </span><b>def </b></span><span class="s1">intersection_update<b>(</b></span><span class="s3">self</span><span class="s1"><b>, </b>other<b>):</b></span></p>
+<p class="p7"><span class="s1"><b><span class="Apple-converted-space">                </span></b></span><span class="s3"><b>for </b></span><span class="s1">e </span><span class="s3"><b>in </b>self</span><span class="s1"><b>.</b>dict<b>.</b>keys<b>():</b></span></p>
+<p class="p7"><span class="s1"><b><span class="Apple-converted-space">                    </span></b></span><span class="s3"><b>if </b></span><span class="s1">e </span><span class="s3"><b>not in </b></span><span class="s1">other<b>:</b></span></p>
+<p class="p7"><span class="s1"><b><span class="Apple-converted-space">                        </span></b></span><span class="s3">self</span><span class="s1"><b>.</b>remove<b>(</b>e<b>)</b></span></p>
+<p class="p7"><span class="s1"><b><span class="Apple-converted-space">                </span></b></span><span class="s3"><b>return </b>self</span></p>
+<p class="p12"><span class="s1"></span><br></p>
+<p class="p7"><span class="s3"><span class="Apple-converted-space">            </span><b>def </b></span><span class="s1">difference_update<b>(</b></span><span class="s3">self</span><span class="s1"><b>, </b>other<b>):</b></span></p>
+<p class="p7"><span class="s1"><b><span class="Apple-converted-space">                </span></b></span><span class="s3"><b>for </b></span><span class="s1">e </span><span class="s3"><b>in </b>self</span><span class="s1"><b>.</b>dict<b>.</b>keys<b>():</b></span></p>
+<p class="p7"><span class="s1"><b><span class="Apple-converted-space">                    </span></b></span><span class="s3"><b>if </b></span><span class="s1">e </span><span class="s3"><b>in </b></span><span class="s1">other<b>:</b></span></p>
+<p class="p7"><span class="s1"><b><span class="Apple-converted-space">                        </span></b></span><span class="s3">self</span><span class="s1"><b>.</b>remove<b>(</b>e<b>)</b></span></p>
+<p class="p7"><span class="s1"><b><span class="Apple-converted-space">                </span></b></span><span class="s3"><b>return </b>self</span></p>
+<p class="p12"><span class="s1"></span><br></p>
+<p class="p7"><span class="s3"><span class="Apple-converted-space">            </span><b>def </b></span><span class="s1">symmetric_difference_update<b>(</b></span><span class="s3">self</span><span class="s1"><b>, </b>other<b>):</b></span></p>
+<p class="p7"><span class="s1"><b><span class="Apple-converted-space">                </span></b>to_remove1 <b>= [</b>e </span><span class="s3"><b>for </b></span><span class="s1">e </span><span class="s3"><b>in </b>self</span><span class="s1"><b>.</b>dict </span><span class="s3"><b>if </b></span><span class="s1">e </span><span class="s3"><b>in </b></span><span class="s1">other<b>]</b></span></p>
+<p class="p7"><span class="s1"><b><span class="Apple-converted-space">                </span></b>to_remove2 <b>= [</b>e </span><span class="s3"><b>for </b></span><span class="s1">e </span><span class="s3"><b>in </b></span><span class="s1">other </span><span class="s3"><b>if </b></span><span class="s1">e </span><span class="s3"><b>in </b>self</span><span class="s1"><b>.</b>dict<b>]</b></span></p>
+<p class="p7"><span class="s1"><b><span class="Apple-converted-space">                </span></b></span><span class="s3">self</span><span class="s1"><b>.</b>difference_update<b>(</b>to_remove1<b>)</b></span></p>
+<p class="p7"><span class="s1"><b><span class="Apple-converted-space">                </span></b></span><span class="s3">self</span><span class="s1"><b>.</b>difference_update<b>(</b>to_remove2<b>)</b></span></p>
+<p class="p7"><span class="s1"><b><span class="Apple-converted-space">                </span></b></span><span class="s3"><b>return </b>self</span></p>
+<p class="p12"><span class="s1"></span><br></p>
+<p class="p11"><span class="s1"><span class="Apple-converted-space">            </span><b>def </b></span><span class="s6">add<b>(</b></span><span class="s1">self</span><span class="s6"><b>, </b>element<b>):</b></span></p>
+<p class="p7"><span class="s1"><b><span class="Apple-converted-space">                </span></b></span><span class="s3">self</span><span class="s1"><b>.</b>dict<b>[</b>element<b>] = </b></span><span class="s4">1</span></p>
+<p class="p10"><span class="s1"></span><br></p>
+<p class="p7"><span class="s4"><span class="Apple-converted-space">            </span></span><span class="s3"><b>def </b></span><span class="s1">remove<b>(</b></span><span class="s3">self</span><span class="s1"><b>, </b>element<b>):</b></span></p>
+<p class="p7"><span class="s1"><b><span class="Apple-converted-space">                </span></b></span><span class="s3"><b>del </b>self</span><span class="s1"><b>.</b>dict<b>[</b>element<b>]</b></span></p>
+<p class="p8"><span class="s1"><b></b></span><br></p>
+<p class="p7"><span class="s1"><b><span class="Apple-converted-space">            </span></b></span><span class="s3"><b>def </b></span><span class="s1">discard<b>(</b></span><span class="s3">self</span><span class="s1"><b>, </b>element<b>):</b></span></p>
+<p class="p7"><span class="s1"><b><span class="Apple-converted-space">                </span></b></span><span class="s3"><b>if </b></span><span class="s1">element </span><span class="s3"><b>in </b>self</span><span class="s1"><b>.</b>dict<b>:</b></span></p>
+<p class="p7"><span class="s1"><b><span class="Apple-converted-space">                    </span></b></span><span class="s3"><b>del </b>self</span><span class="s1"><b>.</b>dict<b>[</b>element<b>]</b></span></p>
+<p class="p8"><span class="s1"><b></b></span><br></p>
+<p class="p7"><span class="s1"><b><span class="Apple-converted-space">            </span></b></span><span class="s3"><b>def </b></span><span class="s1">pop<b>(</b></span><span class="s3">self</span><span class="s1"><b>):</b></span></p>
+<p class="p7"><span class="s1"><b><span class="Apple-converted-space">                </span></b>key<b>, </b>val <b>= </b></span><span class="s3">self</span><span class="s1"><b>.</b>dict<b>.</b>popitem<b>()</b></span></p>
+<p class="p7"><span class="s1"><b><span class="Apple-converted-space">                </span></b></span><span class="s3"><b>return </b></span><span class="s1">key</span></p>
+<p class="p8"><span class="s1"></span><br></p>
+<p class="p7"><span class="s1"><span class="Apple-converted-space">            </span></span><span class="s3"><b>def </b></span><span class="s1">clear<b>(</b></span><span class="s3">self</span><span class="s1"><b>):</b></span></p>
+<p class="p7"><span class="s1"><b><span class="Apple-converted-space">                </span></b></span><span class="s3">self</span><span class="s1"><b>.</b>dict<b>.</b>clear<b>()</b></span></p>
+<p class="p8"><span class="s1"><b></b></span><br></p>
+<p class="p7"><span class="s1"><b><span class="Apple-converted-space">            </span></b>__ior__ <b>= </b>update</span></p>
+<p class="p7"><span class="s1"><span class="Apple-converted-space">            </span>__iand__ <b>= </b>intersection_update</span></p>
+<p class="p7"><span class="s1"><span class="Apple-converted-space">            </span>__isub__ <b>= </b>difference_update</span></p>
+<p class="p7"><span class="s1"><span class="Apple-converted-space">            </span>__ixor__ <b>= </b>symmetric_difference_update</span></p>
+<p class="p8"><span class="s1"></span><br></p>
+<p class="p8"><span class="s1"></span><br></p>
+<p class="p8"><span class="s1"></span><br></p>
+<p class="p8"><span class="s1"></span><br></p>
+<p class="p3"><span class="s1"><i>#______________________________________________________________________________</i></span></p>
+<p class="p3"><span class="s1"><i># Simple Data Structures: infinity, Dict, Struct</i></span></p>
+<p class="p4"><span class="s1"><i></i></span><br></p>
+<p class="p7"><span class="s1">infinity <b>= </b></span><span class="s4">1.0</span><span class="s1">e400</span></p>
+<p class="p8"><span class="s1"></span><br></p>
+<p class="p7"><span class="s3"><b>def </b></span><span class="s1">Dict<b>(**</b>entries<b>):</b></span></p>
+<p class="p5"><span class="s6"><b><span class="Apple-converted-space">    </span></b></span><span class="s1">"""Create a dict out of the argument=value arguments.</span></p>
+<p class="p5"><span class="s1"><span class="Apple-converted-space">    </span>&gt;&gt;&gt; Dict(a=1, b=2, c=3)</span></p>
+<p class="p5"><span class="s1"><span class="Apple-converted-space">    </span>{'a': 1, 'c': 3, 'b': 2}</span></p>
+<p class="p5"><span class="s1"><span class="Apple-converted-space">    </span>"""</span></p>
+<p class="p7"><span class="s5"><span class="Apple-converted-space">    </span></span><span class="s3"><b>return </b></span><span class="s1">entries</span></p>
+<p class="p8"><span class="s1"></span><br></p>
+<p class="p7"><span class="s3"><b>class </b></span><span class="s1">DefaultDict<b>(</b>dict<b>):</b></span></p>
+<p class="p5"><span class="s6"><b><span class="Apple-converted-space">    </span></b></span><span class="s1">"""Dictionary with a default value for unknown keys."""</span></p>
+<p class="p7"><span class="s5"><span class="Apple-converted-space">    </span></span><span class="s3"><b>def </b></span><span class="s1">__init__<b>(</b></span><span class="s3">self</span><span class="s1"><b>, </b>default<b>):</b></span></p>
+<p class="p7"><span class="s1"><b><span class="Apple-converted-space">        </span></b></span><span class="s3">self</span><span class="s1"><b>.</b>default <b>= </b>default</span></p>
+<p class="p8"><span class="s1"></span><br></p>
+<p class="p7"><span class="s1"><span class="Apple-converted-space">    </span></span><span class="s3"><b>def </b></span><span class="s1">__getitem__<b>(</b></span><span class="s3">self</span><span class="s1"><b>, </b>key<b>):</b></span></p>
+<p class="p7"><span class="s1"><b><span class="Apple-converted-space">        </span></b></span><span class="s3"><b>if </b></span><span class="s1">key </span><span class="s3"><b>in </b>self</span><span class="s1"><b>: </b></span><span class="s3"><b>return </b>self</span><span class="s1"><b>.</b>get<b>(</b>key<b>)</b></span></p>
+<p class="p7"><span class="s1"><b><span class="Apple-converted-space">        </span></b></span><span class="s3"><b>return </b>self</span><span class="s1"><b>.</b>setdefault<b>(</b>key<b>, </b>copy<b>.</b>deepcopy<b>(</b></span><span class="s3">self</span><span class="s1"><b>.</b>default<b>))</b></span></p>
+<p class="p8"><span class="s1"><b></b></span><br></p>
+<p class="p7"><span class="s1"><b><span class="Apple-converted-space">    </span></b></span><span class="s3"><b>def </b></span><span class="s1">__copy__<b>(</b></span><span class="s3">self</span><span class="s1"><b>):</b></span></p>
+<p class="p7"><span class="s1"><b><span class="Apple-converted-space">        </span></b>copy <b>= </b>DefaultDict<b>(</b></span><span class="s3">self</span><span class="s1"><b>.</b>default<b>)</b></span></p>
+<p class="p7"><span class="s1"><b><span class="Apple-converted-space">        </span></b>copy<b>.</b>update<b>(</b></span><span class="s3">self</span><span class="s1"><b>)</b></span></p>
+<p class="p7"><span class="s1"><b><span class="Apple-converted-space">        </span></b></span><span class="s3"><b>return </b></span><span class="s1">copy</span></p>
+<p class="p8"><span class="s1"></span><br></p>
+<p class="p7"><span class="s3"><b>class </b></span><span class="s1">Struct<b>:</b></span></p>
+<p class="p5"><span class="s6"><b><span class="Apple-converted-space">    </span></b></span><span class="s1">"""Create an instance with argument=value slots.</span></p>
+<p class="p5"><span class="s1"><span class="Apple-converted-space">    </span>This is for making a lightweight object whose class doesn't matter."""</span></p>
+<p class="p7"><span class="s5"><span class="Apple-converted-space">    </span></span><span class="s3"><b>def </b></span><span class="s1">__init__<b>(</b></span><span class="s3">self</span><span class="s1"><b>, **</b>entries<b>):</b></span></p>
+<p class="p7"><span class="s1"><b><span class="Apple-converted-space">        </span></b></span><span class="s3">self</span><span class="s1"><b>.</b>__dict__<b>.</b>update<b>(</b>entries<b>)</b></span></p>
+<p class="p8"><span class="s1"><b></b></span><br></p>
+<p class="p7"><span class="s1"><b><span class="Apple-converted-space">    </span></b></span><span class="s3"><b>def </b></span><span class="s1">__cmp__<b>(</b></span><span class="s3">self</span><span class="s1"><b>, </b>other<b>):</b></span></p>
+<p class="p7"><span class="s1"><b><span class="Apple-converted-space">        </span></b></span><span class="s3"><b>if </b></span><span class="s1">isinstance<b>(</b>other<b>, </b>Struct<b>):</b></span></p>
+<p class="p7"><span class="s1"><b><span class="Apple-converted-space">            </span></b></span><span class="s3"><b>return </b></span><span class="s1">cmp<b>(</b></span><span class="s3">self</span><span class="s1"><b>.</b>__dict__<b>, </b>other<b>.</b>__dict__<b>)</b></span></p>
+<p class="p7"><span class="s1"><b><span class="Apple-converted-space">        </span></b></span><span class="s3"><b>else</b></span><span class="s1"><b>:</b></span></p>
+<p class="p7"><span class="s1"><b><span class="Apple-converted-space">            </span></b></span><span class="s3"><b>return </b></span><span class="s1">cmp<b>(</b></span><span class="s3">self</span><span class="s1"><b>.</b>__dict__<b>, </b>other<b>)</b></span></p>
+<p class="p8"><span class="s1"><b></b></span><br></p>
+<p class="p7"><span class="s1"><b><span class="Apple-converted-space">    </span></b></span><span class="s3"><b>def </b></span><span class="s1">__repr__<b>(</b></span><span class="s3">self</span><span class="s1"><b>):</b></span></p>
+<p class="p7"><span class="s1"><b><span class="Apple-converted-space">        </span></b>args <b>= [</b></span><span class="s4">'%s=%s' </span><span class="s1"><b>% (</b>k<b>, </b>repr<b>(</b>v<b>)) </b></span><span class="s3"><b>for </b></span><span class="s1"><b>(</b>k<b>, </b>v<b>) </b></span><span class="s3"><b>in </b></span><span class="s1">vars<b>(</b></span><span class="s3">self</span><span class="s1"><b>).</b>items<b>()]</b></span></p>
+<p class="p7"><span class="s1"><b><span class="Apple-converted-space">        </span></b></span><span class="s3"><b>return </b></span><span class="s4">'Struct(%s)' </span><span class="s1"><b>% </b></span><span class="s4">', '</span><span class="s1"><b>.</b>join<b>(</b>sorted<b>(</b>args<b>))</b></span></p>
+<p class="p8"><span class="s1"><b></b></span><br></p>
+<p class="p7"><span class="s3"><b>def </b></span><span class="s1">update<b>(</b>x<b>, **</b>entries<b>):</b></span></p>
+<p class="p5"><span class="s6"><b><span class="Apple-converted-space">    </span></b></span><span class="s1">"""Update a dict; or an object with slots; according to entries.</span></p>
+<p class="p5"><span class="s1"><span class="Apple-converted-space">    </span>&gt;&gt;&gt; update({'a': 1}, a=10, b=20)</span></p>
+<p class="p5"><span class="s1"><span class="Apple-converted-space">    </span>{'a': 10, 'b': 20}</span></p>
+<p class="p5"><span class="s1"><span class="Apple-converted-space">    </span>&gt;&gt;&gt; update(Struct(a=1), a=10, b=20)</span></p>
+<p class="p5"><span class="s1"><span class="Apple-converted-space">    </span>Struct(a=10, b=20)</span></p>
+<p class="p5"><span class="s1"><span class="Apple-converted-space">    </span>"""</span></p>
+<p class="p7"><span class="s5"><span class="Apple-converted-space">    </span></span><span class="s3"><b>if </b></span><span class="s1">isinstance<b>(</b>x<b>, </b>dict<b>):</b></span></p>
+<p class="p7"><span class="s1"><b><span class="Apple-converted-space">        </span></b>x<b>.</b>update<b>(</b>entries<b>)</b></span></p>
+<p class="p7"><span class="s1"><b><span class="Apple-converted-space">    </span></b></span><span class="s3"><b>else</b></span><span class="s1"><b>:</b></span></p>
+<p class="p7"><span class="s1"><b><span class="Apple-converted-space">        </span></b>x<b>.</b>__dict__<b>.</b>update<b>(</b>entries<b>)</b></span></p>
+<p class="p11"><span class="s6"><b><span class="Apple-converted-space">    </span></b></span><span class="s1"><b>return </b></span><span class="s6">x</span></p>
+<p class="p8"><span class="s1"></span><br></p>
+<p class="p3"><span class="s1"><i>#______________________________________________________________________________</i></span></p>
+<p class="p3"><span class="s1"><i># Functions on Sequences (mostly inspired by Common Lisp)</i></span></p>
+<p class="p3"><span class="s1"><i># NOTE: Sequence functions (count_if, find_if, every, some) take function</i></span></p>
+<p class="p3"><span class="s1"><i># argument first (like reduce, filter, and map).</i></span></p>
+<p class="p4"><span class="s1"><i></i></span><br></p>
+<p class="p7"><span class="s3"><b>def </b></span><span class="s1">removeall<b>(</b>item<b>, </b>seq<b>):</b></span></p>
+<p class="p5"><span class="s6"><b><span class="Apple-converted-space">    </span></b></span><span class="s1">"""Return a copy of seq (or string) with all occurences of item removed.</span></p>
+<p class="p5"><span class="s1"><span class="Apple-converted-space">    </span>&gt;&gt;&gt; removeall(3, [1, 2, 3, 3, 2, 1, 3])</span></p>
+<p class="p5"><span class="s1"><span class="Apple-converted-space">    </span>[1, 2, 2, 1]</span></p>
+<p class="p5"><span class="s1"><span class="Apple-converted-space">    </span>&gt;&gt;&gt; removeall(4, [1, 2, 3])</span></p>
+<p class="p5"><span class="s1"><span class="Apple-converted-space">    </span>[1, 2, 3]</span></p>
+<p class="p5"><span class="s1"><span class="Apple-converted-space">    </span>"""</span></p>
+<p class="p7"><span class="s5"><span class="Apple-converted-space">    </span></span><span class="s3"><b>if </b></span><span class="s1">isinstance<b>(</b>seq<b>, </b>str<b>):</b></span></p>
+<p class="p7"><span class="s1"><b><span class="Apple-converted-space">        </span></b></span><span class="s3"><b>return </b></span><span class="s1">seq<b>.</b>replace<b>(</b>item<b>, </b></span><span class="s4">''</span><span class="s1"><b>)</b></span></p>
+<p class="p7"><span class="s1"><b><span class="Apple-converted-space">    </span></b></span><span class="s3"><b>else</b></span><span class="s1"><b>:</b></span></p>
+<p class="p7"><span class="s1"><b><span class="Apple-converted-space">        </span></b></span><span class="s3"><b>return </b></span><span class="s1"><b>[</b>x </span><span class="s3"><b>for </b></span><span class="s1">x </span><span class="s3"><b>in </b></span><span class="s1">seq </span><span class="s3"><b>if </b></span><span class="s1">x <b>!= </b>item<b>]</b></span></p>
+<p class="p8"><span class="s1"><b></b></span><br></p>
+<p class="p7"><span class="s3"><b>def </b></span><span class="s1">unique<b>(</b>seq<b>):</b></span></p>
+<p class="p5"><span class="s6"><b><span class="Apple-converted-space">    </span></b></span><span class="s1">"""Remove duplicate elements from seq. Assumes hashable elements.</span></p>
+<p class="p5"><span class="s1"><span class="Apple-converted-space">    </span>&gt;&gt;&gt; unique([1, 2, 3, 2, 1])</span></p>
+<p class="p5"><span class="s1"><span class="Apple-converted-space">    </span>[1, 2, 3]</span></p>
+<p class="p5"><span class="s1"><span class="Apple-converted-space">    </span>"""</span></p>
+<p class="p7"><span class="s5"><span class="Apple-converted-space">    </span></span><span class="s3"><b>return </b></span><span class="s1">list<b>(</b>set<b>(</b>seq<b>))</b></span></p>
+<p class="p8"><span class="s1"><b></b></span><br></p>
+<p class="p7"><span class="s3"><b>def </b></span><span class="s1">product<b>(</b>numbers<b>):</b></span></p>
+<p class="p5"><span class="s6"><b><span class="Apple-converted-space">    </span></b></span><span class="s1">"""Return the product of the numbers.</span></p>
+<p class="p5"><span class="s1"><span class="Apple-converted-space">    </span>&gt;&gt;&gt; product([1,2,3,4])</span></p>
+<p class="p5"><span class="s1"><span class="Apple-converted-space">    </span>24</span></p>
+<p class="p5"><span class="s1"><span class="Apple-converted-space">    </span>"""</span></p>
+<p class="p7"><span class="s5"><span class="Apple-converted-space">    </span></span><span class="s3"><b>return </b></span><span class="s1">reduce<b>(</b>operator<b>.</b>mul<b>, </b>numbers<b>, </b></span><span class="s4">1</span><span class="s1"><b>)</b></span></p>
+<p class="p8"><span class="s1"><b></b></span><br></p>
+<p class="p7"><span class="s3"><b>def </b></span><span class="s1">count_if<b>(</b>predicate<b>, </b>seq<b>):</b></span></p>
+<p class="p5"><span class="s6"><b><span class="Apple-converted-space">    </span></b></span><span class="s1">"""Count the number of elements of seq for which the predicate is true.</span></p>
+<p class="p5"><span class="s1"><span class="Apple-converted-space">    </span>&gt;&gt;&gt; count_if(callable, [42, None, max, min])</span></p>
+<p class="p5"><span class="s1"><span class="Apple-converted-space">    </span>2</span></p>
+<p class="p5"><span class="s1"><span class="Apple-converted-space">    </span>"""</span></p>
+<p class="p7"><span class="s5"><span class="Apple-converted-space">    </span></span><span class="s1">f <b>= </b></span><span class="s3"><b>lambda </b></span><span class="s1">count<b>, </b>x<b>: </b>count <b>+ (</b></span><span class="s3"><b>not not </b></span><span class="s1">predicate<b>(</b>x<b>))</b></span></p>
+<p class="p7"><span class="s1"><b><span class="Apple-converted-space">    </span></b></span><span class="s3"><b>return </b></span><span class="s1">reduce<b>(</b>f<b>, </b>seq<b>, </b></span><span class="s4">0</span><span class="s1"><b>)</b></span></p>
+<p class="p8"><span class="s1"><b></b></span><br></p>
+<p class="p7"><span class="s3"><b>def </b></span><span class="s1">find_if<b>(</b>predicate<b>, </b>seq<b>):</b></span></p>
+<p class="p5"><span class="s6"><b><span class="Apple-converted-space">    </span></b></span><span class="s1">"""If there is an element of seq that satisfies predicate; return it.</span></p>
+<p class="p5"><span class="s1"><span class="Apple-converted-space">    </span>&gt;&gt;&gt; find_if(callable, [3, min, max])</span></p>
+<p class="p5"><span class="s1"><span class="Apple-converted-space">    </span>&lt;built-in function min&gt;</span></p>
+<p class="p5"><span class="s1"><span class="Apple-converted-space">    </span>&gt;&gt;&gt; find_if(callable, [1, 2, 3])</span></p>
+<p class="p5"><span class="s1"><span class="Apple-converted-space">    </span>"""</span></p>
+<p class="p11"><span class="s5"><span class="Apple-converted-space">    </span></span><span class="s1"><b>for </b></span><span class="s6">x </span><span class="s1"><b>in </b></span><span class="s6">seq<b>:</b></span></p>
+<p class="p7"><span class="s1"><b><span class="Apple-converted-space">        </span></b></span><span class="s3"><b>if </b></span><span class="s1">predicate<b>(</b>x<b>): </b></span><span class="s3"><b>return </b></span><span class="s1">x</span></p>
+<p class="p11"><span class="s6"><span class="Apple-converted-space">    </span></span><span class="s1"><b>return </b>None</span></p>
+<p class="p12"><span class="s1"></span><br></p>
+<p class="p7"><span class="s3"><b>def </b></span><span class="s1">every<b>(</b>predicate<b>, </b>seq<b>):</b></span></p>
+<p class="p5"><span class="s6"><b><span class="Apple-converted-space">    </span></b></span><span class="s1">"""True if every element of seq satisfies predicate.</span></p>
+<p class="p5"><span class="s1"><span class="Apple-converted-space">    </span>&gt;&gt;&gt; every(callable, [min, max])</span></p>
+<p class="p5"><span class="s1"><span class="Apple-converted-space">    </span>1</span></p>
+<p class="p5"><span class="s1"><span class="Apple-converted-space">    </span>&gt;&gt;&gt; every(callable, [min, 3])</span></p>
+<p class="p5"><span class="s1"><span class="Apple-converted-space">    </span>0</span></p>
+<p class="p5"><span class="s1"><span class="Apple-converted-space">    </span>"""</span></p>
+<p class="p11"><span class="s5"><span class="Apple-converted-space">    </span></span><span class="s1"><b>for </b></span><span class="s6">x </span><span class="s1"><b>in </b></span><span class="s6">seq<b>:</b></span></p>
+<p class="p7"><span class="s1"><b><span class="Apple-converted-space">        </span></b></span><span class="s3"><b>if not </b></span><span class="s1">predicate<b>(</b>x<b>): </b></span><span class="s3"><b>return False</b></span></p>
+<p class="p11"><span class="s1"><b><span class="Apple-converted-space">    </span>return True</b></span></p>
+<p class="p12"><span class="s1"><b></b></span><br></p>
+<p class="p7"><span class="s3"><b>def </b></span><span class="s1">some<b>(</b>predicate<b>, </b>seq<b>):</b></span></p>
+<p class="p5"><span class="s6"><b><span class="Apple-converted-space">    </span></b></span><span class="s1">"""If some element x of seq satisfies predicate(x), return predicate(x).</span></p>
+<p class="p5"><span class="s1"><span class="Apple-converted-space">    </span>&gt;&gt;&gt; some(callable, [min, 3])</span></p>
+<p class="p5"><span class="s1"><span class="Apple-converted-space">    </span>1</span></p>
+<p class="p5"><span class="s1"><span class="Apple-converted-space">    </span>&gt;&gt;&gt; some(callable, [2, 3])</span></p>
+<p class="p5"><span class="s1"><span class="Apple-converted-space">    </span>0</span></p>
+<p class="p5"><span class="s1"><span class="Apple-converted-space">    </span>"""</span></p>
+<p class="p11"><span class="s5"><span class="Apple-converted-space">    </span></span><span class="s1"><b>for </b></span><span class="s6">x </span><span class="s1"><b>in </b></span><span class="s6">seq<b>:</b></span></p>
+<p class="p7"><span class="s1"><b><span class="Apple-converted-space">        </span></b>px <b>= </b>predicate<b>(</b>x<b>)</b></span></p>
+<p class="p7"><span class="s1"><b><span class="Apple-converted-space">        </span></b></span><span class="s3"><b>if </b></span><span class="s1">px<b>: </b></span><span class="s3"><b>return </b></span><span class="s1">px</span></p>
+<p class="p11"><span class="s6"><span class="Apple-converted-space">    </span></span><span class="s1"><b>return False</b></span></p>
+<p class="p12"><span class="s1"><b></b></span><br></p>
+<p class="p7"><span class="s3"><b>def </b></span><span class="s1">isin<b>(</b>elt<b>, </b>seq<b>):</b></span></p>
+<p class="p5"><span class="s6"><b><span class="Apple-converted-space">    </span></b></span><span class="s1">"""Like (elt in seq), but compares with is, not ==.</span></p>
+<p class="p5"><span class="s1"><span class="Apple-converted-space">    </span>&gt;&gt;&gt; e = []; isin(e, [1, e, 3])</span></p>
+<p class="p5"><span class="s1"><span class="Apple-converted-space">    </span>True</span></p>
+<p class="p5"><span class="s1"><span class="Apple-converted-space">    </span>&gt;&gt;&gt; isin(e, [1, [], 3])</span></p>
+<p class="p5"><span class="s1"><span class="Apple-converted-space">    </span>False</span></p>
+<p class="p5"><span class="s1"><span class="Apple-converted-space">    </span>"""</span></p>
+<p class="p11"><span class="s5"><span class="Apple-converted-space">    </span></span><span class="s1"><b>for </b></span><span class="s6">x </span><span class="s1"><b>in </b></span><span class="s6">seq<b>:</b></span></p>
+<p class="p11"><span class="s6"><b><span class="Apple-converted-space">        </span></b></span><span class="s1"><b>if </b></span><span class="s6">elt </span><span class="s1"><b>is </b></span><span class="s6">x<b>: </b></span><span class="s1"><b>return True</b></span></p>
+<p class="p11"><span class="s1"><b><span class="Apple-converted-space">    </span>return False</b></span></p>
+<p class="p12"><span class="s1"><b></b></span><br></p>
+<p class="p3"><span class="s1"><i>#______________________________________________________________________________</i></span></p>
+<p class="p3"><span class="s1"><i># Functions on sequences of numbers</i></span></p>
+<p class="p3"><span class="s1"><i># NOTE: these take the sequence argument first, like min and max,</i></span></p>
+<p class="p3"><span class="s1"><i># and like standard math notation: \sigma (i = 1..n) fn(i)</i></span></p>
+<p class="p3"><span class="s1"><i># A lot of programing is finding the best value that satisfies some condition;</i></span></p>
+<p class="p3"><span class="s1"><i># so there are three versions of argmin/argmax, depending on what you want to</i></span></p>
+<p class="p3"><span class="s1"><i># do with ties: return the first one, return them all, or pick at random.</i></span></p>
+<p class="p4"><span class="s1"><i></i></span><br></p>
+<p class="p7"><span class="s3"><b>def </b></span><span class="s1">argmin<b>(</b>seq<b>, </b>fn<b>):</b></span></p>
+<p class="p5"><span class="s6"><b><span class="Apple-converted-space">    </span></b></span><span class="s1">"""Return an element with lowest fn(seq[i]) score; tie goes to first one.</span></p>
+<p class="p5"><span class="s1"><span class="Apple-converted-space">    </span>&gt;&gt;&gt; argmin(['one', 'to', 'three'], len)</span></p>
+<p class="p5"><span class="s1"><span class="Apple-converted-space">    </span>'to'</span></p>
+<p class="p5"><span class="s1"><span class="Apple-converted-space">    </span>"""</span></p>
+<p class="p7"><span class="s5"><span class="Apple-converted-space">    </span></span><span class="s1">best <b>= </b>seq<b>[</b></span><span class="s4">0</span><span class="s1"><b>]</b>; best_score <b>= </b>fn<b>(</b>best<b>)</b></span></p>
+<p class="p7"><span class="s1"><b><span class="Apple-converted-space">    </span></b></span><span class="s3"><b>for </b></span><span class="s1">x </span><span class="s3"><b>in </b></span><span class="s1">seq<b>:</b></span></p>
+<p class="p7"><span class="s1"><b><span class="Apple-converted-space">        </span></b>x_score <b>= </b>fn<b>(</b>x<b>)</b></span></p>
+<p class="p7"><span class="s1"><b><span class="Apple-converted-space">        </span></b></span><span class="s3"><b>if </b></span><span class="s1">x_score <b>&lt; </b>best_score<b>:</b></span></p>
+<p class="p7"><span class="s1"><b><span class="Apple-converted-space">            </span></b>best<b>, </b>best_score <b>= </b>x<b>, </b>x_score</span></p>
+<p class="p7"><span class="s1"><span class="Apple-converted-space">    </span></span><span class="s3"><b>return </b></span><span class="s1">best</span></p>
+<p class="p8"><span class="s1"></span><br></p>
+<p class="p7"><span class="s3"><b>def </b></span><span class="s1">argmin_list<b>(</b>seq<b>, </b>fn<b>):</b></span></p>
+<p class="p5"><span class="s6"><b><span class="Apple-converted-space">    </span></b></span><span class="s1">"""Return a list of elements of seq[i] with the lowest fn(seq[i]) scores.</span></p>
+<p class="p5"><span class="s1"><span class="Apple-converted-space">    </span>&gt;&gt;&gt; argmin_list(['one', 'to', 'three', 'or'], len)</span></p>
+<p class="p5"><span class="s1"><span class="Apple-converted-space">    </span>['to', 'or']</span></p>
+<p class="p5"><span class="s1"><span class="Apple-converted-space">    </span>"""</span></p>
+<p class="p7"><span class="s5"><span class="Apple-converted-space">    </span></span><span class="s1">best_score<b>, </b>best <b>= </b>fn<b>(</b>seq<b>[</b></span><span class="s4">0</span><span class="s1"><b>]), []</b></span></p>
+<p class="p7"><span class="s1"><b><span class="Apple-converted-space">    </span></b></span><span class="s3"><b>for </b></span><span class="s1">x </span><span class="s3"><b>in </b></span><span class="s1">seq<b>:</b></span></p>
+<p class="p7"><span class="s1"><b><span class="Apple-converted-space">        </span></b>x_score <b>= </b>fn<b>(</b>x<b>)</b></span></p>
+<p class="p7"><span class="s1"><b><span class="Apple-converted-space">        </span></b></span><span class="s3"><b>if </b></span><span class="s1">x_score <b>&lt; </b>best_score<b>:</b></span></p>
+<p class="p7"><span class="s1"><b><span class="Apple-converted-space">            </span></b>best<b>, </b>best_score <b>= [</b>x<b>], </b>x_score</span></p>
+<p class="p7"><span class="s1"><span class="Apple-converted-space">        </span></span><span class="s3"><b>elif </b></span><span class="s1">x_score <b>== </b>best_score<b>:</b></span></p>
+<p class="p7"><span class="s1"><b><span class="Apple-converted-space">            </span></b>best<b>.</b>append<b>(</b>x<b>)</b></span></p>
+<p class="p7"><span class="s1"><b><span class="Apple-converted-space">    </span></b></span><span class="s3"><b>return </b></span><span class="s1">best</span></p>
+<p class="p8"><span class="s1"></span><br></p>
+<p class="p7"><span class="s3"><b>def </b></span><span class="s1">argmin_random_tie<b>(</b>seq<b>, </b>fn<b>):</b></span></p>
+<p class="p5"><span class="s6"><b><span class="Apple-converted-space">    </span></b></span><span class="s1">"""Return an element with lowest fn(seq[i]) score; break ties at random.</span></p>
+<p class="p5"><span class="s1"><span class="Apple-converted-space">    </span>Thus, for all s,f: argmin_random_tie(s, f) in argmin_list(s, f)"""</span></p>
+<p class="p7"><span class="s5"><span class="Apple-converted-space">    </span></span><span class="s1">best_score <b>= </b>fn<b>(</b>seq<b>[</b></span><span class="s4">0</span><span class="s1"><b>])</b>; n <b>= </b></span><span class="s4">0</span></p>
+<p class="p11"><span class="s4"><span class="Apple-converted-space">    </span></span><span class="s1"><b>for </b></span><span class="s6">x </span><span class="s1"><b>in </b></span><span class="s6">seq<b>:</b></span></p>
+<p class="p7"><span class="s1"><b><span class="Apple-converted-space">        </span></b>x_score <b>= </b>fn<b>(</b>x<b>)</b></span></p>
+<p class="p7"><span class="s1"><b><span class="Apple-converted-space">        </span></b></span><span class="s3"><b>if </b></span><span class="s1">x_score <b>&lt; </b>best_score<b>:</b></span></p>
+<p class="p7"><span class="s1"><b><span class="Apple-converted-space">            </span></b>best<b>, </b>best_score <b>= </b>x<b>, </b>x_score; n <b>= </b></span><span class="s4">1</span></p>
+<p class="p7"><span class="s4"><span class="Apple-converted-space">        </span></span><span class="s3"><b>elif </b></span><span class="s1">x_score <b>== </b>best_score<b>:</b></span></p>
+<p class="p7"><span class="s1"><b><span class="Apple-converted-space">            </span></b>n <b>+= </b></span><span class="s4">1</span></p>
+<p class="p7"><span class="s4"><span class="Apple-converted-space">            </span></span><span class="s3"><b>if </b></span><span class="s1">random<b>.</b>randrange<b>(</b>n<b>) == </b></span><span class="s4">0</span><span class="s1"><b>:</b></span></p>
+<p class="p7"><span class="s1"><b><span class="Apple-converted-space">                </span></b>best <b>= </b>x</span></p>
+<p class="p7"><span class="s1"><span class="Apple-converted-space">    </span></span><span class="s3"><b>return </b></span><span class="s1">best</span></p>
+<p class="p8"><span class="s1"></span><br></p>
+<p class="p7"><span class="s3"><b>def </b></span><span class="s1">argmax<b>(</b>seq<b>, </b>fn<b>):</b></span></p>
+<p class="p5"><span class="s6"><b><span class="Apple-converted-space">    </span></b></span><span class="s1">"""Return an element with highest fn(seq[i]) score; tie goes to first one.</span></p>
+<p class="p5"><span class="s1"><span class="Apple-converted-space">    </span>&gt;&gt;&gt; argmax(['one', 'to', 'three'], len)</span></p>
+<p class="p5"><span class="s1"><span class="Apple-converted-space">    </span>'three'</span></p>
+<p class="p5"><span class="s1"><span class="Apple-converted-space">    </span>"""</span></p>
+<p class="p7"><span class="s5"><span class="Apple-converted-space">    </span></span><span class="s3"><b>return </b></span><span class="s1">argmin<b>(</b>seq<b>, </b></span><span class="s3"><b>lambda </b></span><span class="s1">x<b>: -</b>fn<b>(</b>x<b>))</b></span></p>
+<p class="p8"><span class="s1"><b></b></span><br></p>
+<p class="p7"><span class="s3"><b>def </b></span><span class="s1">argmax_list<b>(</b>seq<b>, </b>fn<b>):</b></span></p>
+<p class="p5"><span class="s6"><b><span class="Apple-converted-space">    </span></b></span><span class="s1">"""Return a list of elements of seq[i] with the highest fn(seq[i]) scores.</span></p>
+<p class="p5"><span class="s1"><span class="Apple-converted-space">    </span>&gt;&gt;&gt; argmax_list(['one', 'three', 'seven'], len)</span></p>
+<p class="p5"><span class="s1"><span class="Apple-converted-space">    </span>['three', 'seven']</span></p>
+<p class="p5"><span class="s1"><span class="Apple-converted-space">    </span>"""</span></p>
+<p class="p7"><span class="s5"><span class="Apple-converted-space">    </span></span><span class="s3"><b>return </b></span><span class="s1">argmin_list<b>(</b>seq<b>, </b></span><span class="s3"><b>lambda </b></span><span class="s1">x<b>: -</b>fn<b>(</b>x<b>))</b></span></p>
+<p class="p8"><span class="s1"><b></b></span><br></p>
+<p class="p7"><span class="s3"><b>def </b></span><span class="s1">argmax_random_tie<b>(</b>seq<b>, </b>fn<b>):</b></span></p>
+<p class="p9"><span class="s6"><b><span class="Apple-converted-space">    </span></b></span><span class="s1">"Return an element with highest fn(seq[i]) score; break ties at random."</span></p>
+<p class="p7"><span class="s4"><span class="Apple-converted-space">    </span></span><span class="s3"><b>return </b></span><span class="s1">argmin_random_tie<b>(</b>seq<b>, </b></span><span class="s3"><b>lambda </b></span><span class="s1">x<b>: -</b>fn<b>(</b>x<b>))</b></span></p>
+<p class="p3"><span class="s1"><i>#______________________________________________________________________________</i></span></p>
+<p class="p3"><span class="s1"><i># Statistical and mathematical functions</i></span></p>
+<p class="p4"><span class="s1"><i></i></span><br></p>
+<p class="p7"><span class="s3"><b>def </b></span><span class="s1">histogram<b>(</b>values<b>, </b>mode<b>=</b></span><span class="s4">0</span><span class="s1"><b>, </b>bin_function<b>=</b></span><span class="s3">None</span><span class="s1"><b>):</b></span></p>
+<p class="p5"><span class="s6"><b><span class="Apple-converted-space">    </span></b></span><span class="s1">"""Return a list of (value, count) pairs, summarizing the input values.</span></p>
+<p class="p5"><span class="s1"><span class="Apple-converted-space">    </span>Sorted by increasing value, or if mode=1, by decreasing count.</span></p>
+<p class="p5"><span class="s1"><span class="Apple-converted-space">    </span>If bin_function is given, map it over values first."""</span></p>
+<p class="p7"><span class="s5"><span class="Apple-converted-space">    </span></span><span class="s3"><b>if </b></span><span class="s1">bin_function<b>: </b>values <b>= </b>map<b>(</b>bin_function<b>, </b>values<b>)</b></span></p>
+<p class="p7"><span class="s1"><b><span class="Apple-converted-space">    </span></b>bins <b>= {}</b></span></p>
+<p class="p7"><span class="s1"><b><span class="Apple-converted-space">    </span></b></span><span class="s3"><b>for </b></span><span class="s1">val </span><span class="s3"><b>in </b></span><span class="s1">values<b>:</b></span></p>
+<p class="p7"><span class="s1"><b><span class="Apple-converted-space">        </span></b>bins<b>[</b>val<b>] = </b>bins<b>.</b>get<b>(</b>val<b>, </b></span><span class="s4">0</span><span class="s1"><b>) + </b></span><span class="s4">1</span></p>
+<p class="p7"><span class="s4"><span class="Apple-converted-space">    </span></span><span class="s3"><b>if </b></span><span class="s1">mode<b>:</b></span></p>
+<p class="p7"><span class="s1"><b><span class="Apple-converted-space">        </span></b></span><span class="s3"><b>return </b></span><span class="s1">sorted<b>(</b>bins<b>.</b>items<b>(), </b>key<b>=</b></span><span class="s3"><b>lambda </b></span><span class="s1">x<b>: (</b>x<b>[</b></span><span class="s4">1</span><span class="s1"><b>],</b>x<b>[</b></span><span class="s4">0</span><span class="s1"><b>]), </b>reverse<b>=</b></span><span class="s3"><b>True</b></span><span class="s1"><b>)</b></span></p>
+<p class="p7"><span class="s1"><b><span class="Apple-converted-space">    </span></b></span><span class="s3"><b>else</b></span><span class="s1"><b>:</b></span></p>
+<p class="p7"><span class="s1"><b><span class="Apple-converted-space">        </span></b></span><span class="s3"><b>return </b></span><span class="s1">sorted<b>(</b>bins<b>.</b>items<b>())</b></span></p>
+<p class="p8"><span class="s1"><b></b></span><br></p>
+<p class="p7"><span class="s3"><b>def </b></span><span class="s1">log2<b>(</b>x<b>):</b></span></p>
+<p class="p5"><span class="s6"><b><span class="Apple-converted-space">    </span></b></span><span class="s1">"""Base 2 logarithm.</span></p>
+<p class="p5"><span class="s1"><span class="Apple-converted-space">    </span>&gt;&gt;&gt; log2(1024)</span></p>
+<p class="p5"><span class="s1"><span class="Apple-converted-space">    </span>10.0</span></p>
+<p class="p5"><span class="s1"><span class="Apple-converted-space">    </span>"""</span></p>
+<p class="p7"><span class="s5"><span class="Apple-converted-space">    </span></span><span class="s3"><b>return </b></span><span class="s1">math<b>.</b>log10<b>(</b>x<b>) / </b>math<b>.</b>log10<b>(</b></span><span class="s4">2</span><span class="s1"><b>)</b></span></p>
+<p class="p8"><span class="s1"><b></b></span><br></p>
+<p class="p7"><span class="s3"><b>def </b></span><span class="s1">mode<b>(</b>values<b>):</b></span></p>
+<p class="p5"><span class="s6"><b><span class="Apple-converted-space">    </span></b></span><span class="s1">"""Return the most common value in the list of values.</span></p>
+<p class="p5"><span class="s1"><span class="Apple-converted-space">    </span>&gt;&gt;&gt; mode([1, 2, 3, 2])</span></p>
+<p class="p5"><span class="s1"><span class="Apple-converted-space">    </span>2</span></p>
+<p class="p5"><span class="s1"><span class="Apple-converted-space">    </span>"""</span></p>
+<p class="p7"><span class="s5"><span class="Apple-converted-space">    </span></span><span class="s3"><b>return </b></span><span class="s1">histogram<b>(</b>values<b>, </b>mode<b>=</b></span><span class="s4">1</span><span class="s1"><b>)[</b></span><span class="s4">0</span><span class="s1"><b>][</b></span><span class="s4">0</span><span class="s1"><b>]</b></span></p>
+<p class="p8"><span class="s1"><b></b></span><br></p>
+<p class="p7"><span class="s3"><b>def </b></span><span class="s1">median<b>(</b>values<b>):</b></span></p>
+<p class="p5"><span class="s6"><b><span class="Apple-converted-space">    </span></b></span><span class="s1">"""Return the middle value, when the values are sorted.</span></p>
+<p class="p5"><span class="s1"><span class="Apple-converted-space">    </span>If there are an odd number of elements, try to average the middle two.</span></p>
+<p class="p5"><span class="s1"><span class="Apple-converted-space">    </span>If they can't be averaged (e.g. they are strings), choose one at random.</span></p>
+<p class="p5"><span class="s1"><span class="Apple-converted-space">    </span>&gt;&gt;&gt; median([10, 100, 11])</span></p>
+<p class="p5"><span class="s1"><span class="Apple-converted-space">    </span>11</span></p>
+<p class="p5"><span class="s1"><span class="Apple-converted-space">    </span>&gt;&gt;&gt; median([1, 2, 3, 4])</span></p>
+<p class="p5"><span class="s1"><span class="Apple-converted-space">    </span>2.5</span></p>
+<p class="p5"><span class="s1"><span class="Apple-converted-space">    </span>"""</span></p>
+<p class="p7"><span class="s5"><span class="Apple-converted-space">    </span></span><span class="s1">n <b>= </b>len<b>(</b>values<b>)</b></span></p>
+<p class="p7"><span class="s1"><b><span class="Apple-converted-space">    </span></b>values <b>= </b>sorted<b>(</b>values<b>)</b></span></p>
+<p class="p7"><span class="s1"><b><span class="Apple-converted-space">    </span></b></span><span class="s3"><b>if </b></span><span class="s1">n <b>% </b></span><span class="s4">2 </span><span class="s1"><b>== </b></span><span class="s4">1</span><span class="s1"><b>:</b></span></p>
+<p class="p7"><span class="s1"><b><span class="Apple-converted-space">        </span></b></span><span class="s3"><b>return </b></span><span class="s1">values<b>[</b>n<b>/</b></span><span class="s4">2</span><span class="s1"><b>]</b></span></p>
+<p class="p7"><span class="s1"><b><span class="Apple-converted-space">    </span></b></span><span class="s3"><b>else</b></span><span class="s1"><b>:</b></span></p>
+<p class="p7"><span class="s1"><b><span class="Apple-converted-space">        </span></b>middle2 <b>= </b>values<b>[(</b>n<b>/</b></span><span class="s4">2</span><span class="s1"><b>)-</b></span><span class="s4">1</span><span class="s1"><b>:(</b>n<b>/</b></span><span class="s4">2</span><span class="s1"><b>)+</b></span><span class="s4">1</span><span class="s1"><b>]</b></span></p>
+<p class="p7"><span class="s1"><b><span class="Apple-converted-space">        </span></b></span><span class="s3"><b>try</b></span><span class="s1"><b>:</b></span></p>
+<p class="p7"><span class="s1"><b><span class="Apple-converted-space">            </span></b></span><span class="s3"><b>return </b></span><span class="s1">mean<b>(</b>middle2<b>)</b></span></p>
+<p class="p7"><span class="s1"><b><span class="Apple-converted-space">        </span></b></span><span class="s3"><b>except </b></span><span class="s1">TypeError<b>:</b></span></p>
+<p class="p7"><span class="s1"><b><span class="Apple-converted-space">            </span></b></span><span class="s3"><b>return </b></span><span class="s1">random<b>.</b>choice<b>(</b>middle2<b>)</b></span></p>
+<p class="p8"><span class="s1"><b></b></span><br></p>
+<p class="p7"><span class="s3"><b>def </b></span><span class="s1">mean<b>(</b>values<b>):</b></span></p>
+<p class="p5"><span class="s6"><b><span class="Apple-converted-space">    </span></b></span><span class="s1">"""Return the arithmetic average of the values."""</span></p>
+<p class="p7"><span class="s5"><span class="Apple-converted-space">    </span></span><span class="s3"><b>return </b></span><span class="s1">sum<b>(</b>values<b>) / </b>float<b>(</b>len<b>(</b>values<b>))</b></span></p>
+<p class="p8"><span class="s1"><b></b></span><br></p>
+<p class="p7"><span class="s3"><b>def </b></span><span class="s1">stddev<b>(</b>values<b>, </b>meanval<b>=</b></span><span class="s3">None</span><span class="s1"><b>):</b></span></p>
+<p class="p5"><span class="s6"><b><span class="Apple-converted-space">    </span></b></span><span class="s1">"""The standard deviation of a set of values.</span></p>
+<p class="p5"><span class="s1"><span class="Apple-converted-space">    </span>Pass in the mean if you already know it."""</span></p>
+<p class="p7"><span class="s5"><span class="Apple-converted-space">    </span></span><span class="s3"><b>if </b></span><span class="s1">meanval </span><span class="s3"><b>is </b>None</span><span class="s1"><b>: </b>meanval <b>= </b>mean<b>(</b>values<b>)</b></span></p>
+<p class="p7"><span class="s1"><b><span class="Apple-converted-space">    </span></b></span><span class="s3"><b>return </b></span><span class="s1">math<b>.</b>sqrt<b>(</b>sum<b>([(</b>x <b>- </b>meanval<b>)**</b></span><span class="s4">2 </span><span class="s3"><b>for </b></span><span class="s1">x </span><span class="s3"><b>in </b></span><span class="s1">values<b>]) / (</b>len<b>(</b>values<b>)-</b></span><span class="s4">1</span><span class="s1"><b>))</b></span></p>
+<p class="p8"><span class="s1"><b></b></span><br></p>
+<p class="p7"><span class="s3"><b>def </b></span><span class="s1">dotproduct<b>(</b>X<b>, </b>Y<b>):</b></span></p>
+<p class="p5"><span class="s6"><b><span class="Apple-converted-space">    </span></b></span><span class="s1">"""Return the sum of the element-wise product of vectors x and y.</span></p>
+<p class="p5"><span class="s1"><span class="Apple-converted-space">    </span>&gt;&gt;&gt; dotproduct([1, 2, 3], [1000, 100, 10])</span></p>
+<p class="p5"><span class="s1"><span class="Apple-converted-space">    </span>1230</span></p>
+<p class="p5"><span class="s1"><span class="Apple-converted-space">    </span>"""</span></p>
+<p class="p7"><span class="s5"><span class="Apple-converted-space">    </span></span><span class="s3"><b>return </b></span><span class="s1">sum<b>([</b>x <b>* </b>y </span><span class="s3"><b>for </b></span><span class="s1">x<b>, </b>y </span><span class="s3"><b>in </b></span><span class="s1">zip<b>(</b>X<b>, </b>Y<b>)])</b></span></p>
+<p class="p8"><span class="s1"><b></b></span><br></p>
+<p class="p7"><span class="s3"><b>def </b></span><span class="s1">vector_add<b>(</b>a<b>, </b>b<b>):</b></span></p>
+<p class="p5"><span class="s6"><b><span class="Apple-converted-space">    </span></b></span><span class="s1">"""Component-wise addition of two vectors.</span></p>
+<p class="p5"><span class="s1"><span class="Apple-converted-space">    </span>&gt;&gt;&gt; vector_add((0, 1), (8, 9))</span></p>
+<p class="p5"><span class="s1"><span class="Apple-converted-space">    </span>(8, 10)</span></p>
+<p class="p5"><span class="s1"><span class="Apple-converted-space">    </span>"""</span></p>
+<p class="p7"><span class="s5"><span class="Apple-converted-space">    </span></span><span class="s3"><b>return </b></span><span class="s1">tuple<b>(</b>map<b>(</b>operator<b>.</b>add<b>, </b>a<b>, </b>b<b>))</b></span></p>
+<p class="p8"><span class="s1"><b></b></span><br></p>
+<p class="p7"><span class="s3"><b>def </b></span><span class="s1">probability<b>(</b>p<b>):</b></span></p>
+<p class="p9"><span class="s6"><b><span class="Apple-converted-space">    </span></b></span><span class="s1">"Return true with probability p."</span></p>
+<p class="p7"><span class="s4"><span class="Apple-converted-space">    </span></span><span class="s3"><b>return </b></span><span class="s1">p <b>&gt; </b>random<b>.</b>uniform<b>(</b></span><span class="s4">0.0</span><span class="s1"><b>, </b></span><span class="s4">1.0</span><span class="s1"><b>)</b></span></p>
+<p class="p8"><span class="s1"><b></b></span><br></p>
+<p class="p7"><span class="s3"><b>def </b></span><span class="s1">weighted_sample_with_replacement<b>(</b>seq<b>, </b>weights<b>, </b>n<b>):</b></span></p>
+<p class="p5"><span class="s6"><b><span class="Apple-converted-space">    </span></b></span><span class="s1">"""Pick n samples from seq at random, with replacement, with the</span></p>
+<p class="p5"><span class="s1"><span class="Apple-converted-space">    </span>probability of each element in proportion to its corresponding</span></p>
+<p class="p5"><span class="s1"><span class="Apple-converted-space">    </span>weight."""</span></p>
+<p class="p7"><span class="s5"><span class="Apple-converted-space">    </span></span><span class="s1">sample <b>= </b>weighted_sampler<b>(</b>seq<b>, </b>weights<b>)</b></span></p>
+<p class="p7"><span class="s1"><b><span class="Apple-converted-space">    </span></b></span><span class="s3"><b>return </b></span><span class="s1"><b>[</b>sample<b>() </b></span><span class="s3"><b>for </b></span><span class="s1">s </span><span class="s3"><b>in </b></span><span class="s1">range<b>(</b>n<b>)]</b></span></p>
+<p class="p8"><span class="s1"><b></b></span><br></p>
+<p class="p7"><span class="s3"><b>def </b></span><span class="s1">weighted_sampler<b>(</b>seq<b>, </b>weights<b>):</b></span></p>
+<p class="p9"><span class="s6"><b><span class="Apple-converted-space">    </span></b></span><span class="s1">"Return a random-sample function that picks from seq weighted by weights."</span></p>
+<p class="p7"><span class="s4"><span class="Apple-converted-space">    </span></span><span class="s1">totals <b>= []</b></span></p>
+<p class="p7"><span class="s1"><b><span class="Apple-converted-space">    </span></b></span><span class="s3"><b>for </b></span><span class="s1">w </span><span class="s3"><b>in </b></span><span class="s1">weights<b>:</b></span></p>
+<p class="p7"><span class="s1"><b><span class="Apple-converted-space">        </span></b>totals<b>.</b>append<b>(</b>w <b>+ </b>totals<b>[-</b></span><span class="s4">1</span><span class="s1"><b>] </b></span><span class="s3"><b>if </b></span><span class="s1">totals </span><span class="s3"><b>else </b></span><span class="s1">w<b>)</b></span></p>
+<p class="p7"><span class="s1"><b><span class="Apple-converted-space">    </span></b></span><span class="s3"><b>return lambda</b></span><span class="s1"><b>: </b>seq<b>[</b>bisect<b>.</b>bisect<b>(</b>totals<b>, </b>random<b>.</b>uniform<b>(</b></span><span class="s4">0</span><span class="s1"><b>, </b>totals<b>[-</b></span><span class="s4">1</span><span class="s1"><b>]))]</b></span></p>
+<p class="p8"><span class="s1"><b></b></span><br></p>
+<p class="p7"><span class="s3"><b>def </b></span><span class="s1">num_or_str<b>(</b>x<b>):</b></span></p>
+<p class="p5"><span class="s6"><b><span class="Apple-converted-space">    </span></b></span><span class="s1">"""The argument is a string; convert to a number if possible, or strip it.</span></p>
+<p class="p5"><span class="s1"><span class="Apple-converted-space">    </span>&gt;&gt;&gt; num_or_str('42')</span></p>
+<p class="p5"><span class="s1"><span class="Apple-converted-space">    </span>42</span></p>
+<p class="p5"><span class="s1"><span class="Apple-converted-space">    </span>&gt;&gt;&gt; num_or_str(' 42x ')</span></p>
+<p class="p5"><span class="s1"><span class="Apple-converted-space">    </span>'42x'</span></p>
+<p class="p5"><span class="s1"><span class="Apple-converted-space">    </span>"""</span></p>
+<p class="p7"><span class="s5"><span class="Apple-converted-space">    </span></span><span class="s3"><b>if </b></span><span class="s1">isnumber<b>(</b>x<b>): </b></span><span class="s3"><b>return </b></span><span class="s1">x</span></p>
+<p class="p7"><span class="s1"><span class="Apple-converted-space">    </span></span><span class="s3"><b>try</b></span><span class="s1"><b>:</b></span></p>
+<p class="p7"><span class="s1"><b><span class="Apple-converted-space">        </span></b></span><span class="s3"><b>return </b></span><span class="s1">int<b>(</b>x<b>)</b></span></p>
+<p class="p7"><span class="s1"><b><span class="Apple-converted-space">    </span></b></span><span class="s3"><b>except </b></span><span class="s1">ValueError<b>:</b></span></p>
+<p class="p7"><span class="s1"><b><span class="Apple-converted-space">        </span></b></span><span class="s3"><b>try</b></span><span class="s1"><b>:</b></span></p>
+<p class="p7"><span class="s1"><b><span class="Apple-converted-space">            </span></b></span><span class="s3"><b>return </b></span><span class="s1">float<b>(</b>x<b>)</b></span></p>
+<p class="p7"><span class="s1"><b><span class="Apple-converted-space">        </span></b></span><span class="s3"><b>except </b></span><span class="s1">ValueError<b>:</b></span></p>
+<p class="p7"><span class="s1"><b><span class="Apple-converted-space">            </span></b></span><span class="s3"><b>return </b></span><span class="s1">str<b>(</b>x<b>).</b>strip<b>()</b></span></p>
+<p class="p8"><span class="s1"><b></b></span><br></p>
+<p class="p7"><span class="s3"><b>def </b></span><span class="s1">normalize<b>(</b>numbers<b>):</b></span></p>
+<p class="p5"><span class="s6"><b><span class="Apple-converted-space">    </span></b></span><span class="s1">"""Multiply each number by a constant such that the sum is 1.0</span></p>
+<p class="p5"><span class="s1"><span class="Apple-converted-space">    </span>&gt;&gt;&gt; normalize([1,2,1])</span></p>
+<p class="p5"><span class="s1"><span class="Apple-converted-space">    </span>[0.25, 0.5, 0.25]</span></p>
+<p class="p5"><span class="s1"><span class="Apple-converted-space">    </span>"""</span></p>
+<p class="p7"><span class="s5"><span class="Apple-converted-space">    </span></span><span class="s1">total <b>= </b>float<b>(</b>sum<b>(</b>numbers<b>))</b></span></p>
+<p class="p7"><span class="s1"><b><span class="Apple-converted-space">    </span></b></span><span class="s3"><b>return </b></span><span class="s1"><b>[</b>n <b>/ </b>total </span><span class="s3"><b>for </b></span><span class="s1">n </span><span class="s3"><b>in </b></span><span class="s1">numbers<b>]</b></span></p>
+<p class="p8"><span class="s1"><b></b></span><br></p>
+<p class="p7"><span class="s3"><b>def </b></span><span class="s1">clip<b>(</b>x<b>, </b>lowest<b>, </b>highest<b>):</b></span></p>
+<p class="p5"><span class="s6"><b><span class="Apple-converted-space">    </span></b></span><span class="s1">"""Return x clipped to the range [lowest..highest].</span></p>
+<p class="p5"><span class="s1"><span class="Apple-converted-space">    </span>&gt;&gt;&gt; [clip(x, 0, 1) for x in [-1, 0.5, 10]]</span></p>
+<p class="p5"><span class="s1"><span class="Apple-converted-space">    </span>[0, 0.5, 1]</span></p>
+<p class="p5"><span class="s1"><span class="Apple-converted-space">    </span>"""</span></p>
+<p class="p7"><span class="s5"><span class="Apple-converted-space">    </span></span><span class="s3"><b>return </b></span><span class="s1">max<b>(</b>lowest<b>, </b>min<b>(</b>x<b>, </b>highest<b>))</b></span></p>
+<p class="p8"><span class="s1"><b></b></span><br></p>
+<p class="p3"><span class="s1"><i>#______________________________________________________________________________</i></span></p>
+<p class="p3"><span class="s1"><i>## OK, the following are not as widely useful utilities as some of the other</i></span></p>
+<p class="p3"><span class="s1"><i>## functions here, but they do show up wherever we have 2D grids: Wumpus and</i></span></p>
+<p class="p3"><span class="s1"><i>## Vacuum worlds, TicTacToe and Checkers, and markov decision Processes.</i></span></p>
+<p class="p4"><span class="s1"><i></i></span><br></p>
+<p class="p7"><span class="s1">orientations <b>= [(</b></span><span class="s4">1</span><span class="s1"><b>, </b></span><span class="s4">0</span><span class="s1"><b>), (</b></span><span class="s4">0</span><span class="s1"><b>, </b></span><span class="s4">1</span><span class="s1"><b>), (-</b></span><span class="s4">1</span><span class="s1"><b>, </b></span><span class="s4">0</span><span class="s1"><b>), (</b></span><span class="s4">0</span><span class="s1"><b>, -</b></span><span class="s4">1</span><span class="s1"><b>)]</b></span></p>
+<p class="p8"><span class="s1"><b></b></span><br></p>
+<p class="p7"><span class="s3"><b>def </b></span><span class="s1">turn_heading<b>(</b>heading<b>, </b>inc<b>, </b>headings<b>=</b>orientations<b>):</b></span></p>
+<p class="p7"><span class="s1"><b><span class="Apple-converted-space">    </span></b></span><span class="s3"><b>return </b></span><span class="s1">headings<b>[(</b>headings<b>.</b>index<b>(</b>heading<b>) + </b>inc<b>) % </b>len<b>(</b>headings<b>)]</b></span></p>
+<p class="p8"><span class="s1"><b></b></span><br></p>
+<p class="p7"><span class="s3"><b>def </b></span><span class="s1">turn_right<b>(</b>heading<b>):</b></span></p>
+<p class="p7"><span class="s1"><b><span class="Apple-converted-space">    </span></b></span><span class="s3"><b>return </b></span><span class="s1">turn_heading<b>(</b>heading<b>, -</b></span><span class="s4">1</span><span class="s1"><b>)</b></span></p>
+<p class="p8"><span class="s1"><b></b></span><br></p>
+<p class="p7"><span class="s3"><b>def </b></span><span class="s1">turn_left<b>(</b>heading<b>):</b></span></p>
+<p class="p7"><span class="s1"><b><span class="Apple-converted-space">    </span></b></span><span class="s3"><b>return </b></span><span class="s1">turn_heading<b>(</b>heading<b>, +</b></span><span class="s4">1</span><span class="s1"><b>)</b></span></p>
+<p class="p8"><span class="s1"><b></b></span><br></p>
+<p class="p7"><span class="s3"><b>def </b></span><span class="s1">distance<b>((</b>ax<b>, </b>ay<b>), (</b>bx<b>, </b>by<b>)):</b></span></p>
+<p class="p9"><span class="s6"><b><span class="Apple-converted-space">    </span></b></span><span class="s1">"The distance between two (x, y) points."</span></p>
+<p class="p7"><span class="s4"><span class="Apple-converted-space">    </span></span><span class="s3"><b>return </b></span><span class="s1">math<b>.</b>hypot<b>((</b>ax <b>- </b>bx<b>), (</b>ay <b>- </b>by<b>))</b></span></p>
+<p class="p8"><span class="s1"><b></b></span><br></p>
+<p class="p7"><span class="s3"><b>def </b></span><span class="s1">distance2<b>((</b>ax<b>, </b>ay<b>), (</b>bx<b>, </b>by<b>)):</b></span></p>
+<p class="p9"><span class="s6"><b><span class="Apple-converted-space">    </span></b></span><span class="s1">"The square of the distance between two (x, y) points."</span></p>
+<p class="p7"><span class="s4"><span class="Apple-converted-space">    </span></span><span class="s3"><b>return </b></span><span class="s1"><b>(</b>ax <b>- </b>bx<b>)**</b></span><span class="s4">2 </span><span class="s1"><b>+ (</b>ay <b>- </b>by<b>)**</b></span><span class="s4">2</span></p>
+<p class="p10"><span class="s1"></span><br></p>
+<p class="p7"><span class="s3"><b>def </b></span><span class="s1">vector_clip<b>(</b>vector<b>, </b>lowest<b>, </b>highest<b>):</b></span></p>
+<p class="p5"><span class="s6"><b><span class="Apple-converted-space">    </span></b></span><span class="s1">"""Return vector, except if any element is less than the corresponding</span></p>
+<p class="p5"><span class="s1"><span class="Apple-converted-space">    </span>value of lowest or more than the corresponding value of highest, clip to</span></p>
+<p class="p5"><span class="s1"><span class="Apple-converted-space">    </span>those values.</span></p>
+<p class="p5"><span class="s1"><span class="Apple-converted-space">    </span>&gt;&gt;&gt; vector_clip((-1, 10), (0, 0), (9, 9))</span></p>
+<p class="p5"><span class="s1"><span class="Apple-converted-space">    </span>(0, 9)</span></p>
+<p class="p5"><span class="s1"><span class="Apple-converted-space">    </span>"""</span></p>
+<p class="p7"><span class="s5"><span class="Apple-converted-space">    </span></span><span class="s3"><b>return </b></span><span class="s1">type<b>(</b>vector<b>)(</b>map<b>(</b>clip<b>, </b>vector<b>, </b>lowest<b>, </b>highest<b>))</b></span></p>
+<p class="p8"><span class="s1"><b></b></span><br></p>
+<p class="p3"><span class="s1"><i>#______________________________________________________________________________</i></span></p>
+<p class="p3"><span class="s1"><i># Misc Functions</i></span></p>
+<p class="p4"><span class="s1"><i></i></span><br></p>
+<p class="p7"><span class="s3"><b>def </b></span><span class="s1">printf<b>(</b>format<b>, *</b>args<b>):</b></span></p>
+<p class="p5"><span class="s6"><b><span class="Apple-converted-space">    </span></b></span><span class="s1">"""Format args with the first argument as format string, and write.</span></p>
+<p class="p5"><span class="s1"><span class="Apple-converted-space">    </span>Return the last arg, or format itself if there are no args."""</span></p>
+<p class="p7"><span class="s5"><span class="Apple-converted-space">    </span></span><span class="s1">sys<b>.</b>stdout<b>.</b>write<b>(</b>str<b>(</b>format<b>) % </b>args<b>)</b></span></p>
+<p class="p7"><span class="s1"><b><span class="Apple-converted-space">    </span></b></span><span class="s3"><b>return </b></span><span class="s1">if_<b>(</b>args<b>, </b></span><span class="s3"><b>lambda</b></span><span class="s1"><b>: </b>args<b>[-</b></span><span class="s4">1</span><span class="s1"><b>], </b></span><span class="s3"><b>lambda</b></span><span class="s1"><b>: </b>format<b>)</b></span></p>
+<p class="p8"><span class="s1"><b></b></span><br></p>
+<p class="p7"><span class="s3"><b>def </b></span><span class="s1">caller<b>(</b>n<b>=</b></span><span class="s4">1</span><span class="s1"><b>):</b></span></p>
+<p class="p5"><span class="s6"><b><span class="Apple-converted-space">    </span></b></span><span class="s1">"""Return the name of the calling function n levels up in the frame stack.</span></p>
+<p class="p5"><span class="s1"><span class="Apple-converted-space">    </span>&gt;&gt;&gt; caller(0)</span></p>
+<p class="p5"><span class="s1"><span class="Apple-converted-space">    </span>'caller'</span></p>
+<p class="p5"><span class="s1"><span class="Apple-converted-space">    </span>&gt;&gt;&gt; def f():</span></p>
+<p class="p5"><span class="s1"><span class="Apple-converted-space">    </span>... <span class="Apple-converted-space">    </span>return caller()</span></p>
+<p class="p5"><span class="s1"><span class="Apple-converted-space">    </span>&gt;&gt;&gt; f()</span></p>
+<p class="p5"><span class="s1"><span class="Apple-converted-space">    </span>'f'</span></p>
+<p class="p5"><span class="s1"><span class="Apple-converted-space">    </span>"""</span></p>
+<p class="p7"><span class="s5"><span class="Apple-converted-space">    </span></span><span class="s3"><b>import </b></span><span class="s1">inspect</span></p>
+<p class="p7"><span class="s1"><span class="Apple-converted-space">    </span></span><span class="s3"><b>return </b></span><span class="s1">inspect<b>.</b>getouterframes<b>(</b>inspect<b>.</b>currentframe<b>())[</b>n<b>][</b></span><span class="s4">3</span><span class="s1"><b>]</b></span></p>
+<p class="p8"><span class="s1"><b></b></span><br></p>
+<p class="p7"><span class="s3"><b>def </b></span><span class="s1">memoize<b>(</b>fn<b>, </b>slot<b>=</b></span><span class="s3">None</span><span class="s1"><b>):</b></span></p>
+<p class="p5"><span class="s6"><b><span class="Apple-converted-space">    </span></b></span><span class="s1">"""Memoize fn: make it remember the computed value for any argument list.</span></p>
+<p class="p5"><span class="s1"><span class="Apple-converted-space">    </span>If slot is specified, store result in that slot of first argument.</span></p>
+<p class="p5"><span class="s1"><span class="Apple-converted-space">    </span>If slot is false, store results in a dictionary."""</span></p>
+<p class="p7"><span class="s5"><span class="Apple-converted-space">    </span></span><span class="s3"><b>if </b></span><span class="s1">slot<b>:</b></span></p>
+<p class="p7"><span class="s1"><b><span class="Apple-converted-space">        </span></b></span><span class="s3"><b>def </b></span><span class="s1">memoized_fn<b>(</b>obj<b>, *</b>args<b>):</b></span></p>
+<p class="p7"><span class="s1"><b><span class="Apple-converted-space">            </span></b></span><span class="s3"><b>if </b></span><span class="s1">hasattr<b>(</b>obj<b>, </b>slot<b>):</b></span></p>
+<p class="p7"><span class="s1"><b><span class="Apple-converted-space">                </span></b></span><span class="s3"><b>return </b></span><span class="s1">getattr<b>(</b>obj<b>, </b>slot<b>)</b></span></p>
+<p class="p7"><span class="s1"><b><span class="Apple-converted-space">            </span></b></span><span class="s3"><b>else</b></span><span class="s1"><b>:</b></span></p>
+<p class="p7"><span class="s1"><b><span class="Apple-converted-space">                </span></b>val <b>= </b>fn<b>(</b>obj<b>, *</b>args<b>)</b></span></p>
+<p class="p7"><span class="s1"><b><span class="Apple-converted-space">                </span></b>setattr<b>(</b>obj<b>, </b>slot<b>, </b>val<b>)</b></span></p>
+<p class="p7"><span class="s1"><b><span class="Apple-converted-space">                </span></b></span><span class="s3"><b>return </b></span><span class="s1">val</span></p>
+<p class="p7"><span class="s1"><span class="Apple-converted-space">    </span></span><span class="s3"><b>else</b></span><span class="s1"><b>:</b></span></p>
+<p class="p7"><span class="s1"><b><span class="Apple-converted-space">        </span></b></span><span class="s3"><b>def </b></span><span class="s1">memoized_fn<b>(*</b>args<b>):</b></span></p>
+<p class="p7"><span class="s1"><b><span class="Apple-converted-space">            </span></b></span><span class="s3"><b>if not </b></span><span class="s1">memoized_fn<b>.</b>cache<b>.</b>has_key<b>(</b>args<b>):</b></span></p>
+<p class="p7"><span class="s1"><b><span class="Apple-converted-space">                </span></b>memoized_fn<b>.</b>cache<b>[</b>args<b>] = </b>fn<b>(*</b>args<b>)</b></span></p>
+<p class="p7"><span class="s1"><b><span class="Apple-converted-space">            </span></b></span><span class="s3"><b>return </b></span><span class="s1">memoized_fn<b>.</b>cache<b>[</b>args<b>]</b></span></p>
+<p class="p7"><span class="s1"><b><span class="Apple-converted-space">        </span></b>memoized_fn<b>.</b>cache <b>= {}</b></span></p>
+<p class="p7"><span class="s1"><b><span class="Apple-converted-space">    </span></b></span><span class="s3"><b>return </b></span><span class="s1">memoized_fn</span></p>
+<p class="p8"><span class="s1"></span><br></p>
+<p class="p7"><span class="s3"><b>def </b></span><span class="s1">if_<b>(</b>test<b>, </b>result<b>, </b>alternative<b>):</b></span></p>
+<p class="p5"><span class="s6"><b><span class="Apple-converted-space">    </span></b></span><span class="s1">"""Like C++ and Java's (test ? result : alternative), except</span></p>
+<p class="p5"><span class="s1"><span class="Apple-converted-space">    </span>both result and alternative are always evaluated. However, if</span></p>
+<p class="p5"><span class="s1"><span class="Apple-converted-space">    </span>either evaluates to a function, it is applied to the empty arglist,</span></p>
+<p class="p5"><span class="s1"><span class="Apple-converted-space">    </span>so you can delay execution by putting it in a lambda.</span></p>
+<p class="p5"><span class="s1"><span class="Apple-converted-space">    </span>&gt;&gt;&gt; if_(2 + 2 == 4, 'ok', lambda: expensive_computation())</span></p>
+<p class="p5"><span class="s1"><span class="Apple-converted-space">    </span>'ok'</span></p>
+<p class="p5"><span class="s1"><span class="Apple-converted-space">    </span>"""</span></p>
+<p class="p7"><span class="s5"><span class="Apple-converted-space">    </span></span><span class="s3"><b>if </b></span><span class="s1">test<b>:</b></span></p>
+<p class="p7"><span class="s1"><b><span class="Apple-converted-space">        </span></b></span><span class="s3"><b>if </b></span><span class="s1">callable<b>(</b>result<b>): </b></span><span class="s3"><b>return </b></span><span class="s1">result<b>()</b></span></p>
+<p class="p7"><span class="s1"><b><span class="Apple-converted-space">        </span></b></span><span class="s3"><b>return </b></span><span class="s1">result</span></p>
+<p class="p7"><span class="s1"><span class="Apple-converted-space">    </span></span><span class="s3"><b>else</b></span><span class="s1"><b>:</b></span></p>
+<p class="p7"><span class="s1"><b><span class="Apple-converted-space">        </span></b></span><span class="s3"><b>if </b></span><span class="s1">callable<b>(</b>alternative<b>): </b></span><span class="s3"><b>return </b></span><span class="s1">alternative<b>()</b></span></p>
+<p class="p7"><span class="s1"><b><span class="Apple-converted-space">        </span></b></span><span class="s3"><b>return </b></span><span class="s1">alternative</span></p>
+<p class="p8"><span class="s1"></span><br></p>
+<p class="p7"><span class="s3"><b>def </b></span><span class="s1">name<b>(</b>object<b>):</b></span></p>
+<p class="p9"><span class="s6"><b><span class="Apple-converted-space">    </span></b></span><span class="s1">"Try to find some reasonable name for the object."</span></p>
+<p class="p7"><span class="s4"><span class="Apple-converted-space">    </span></span><span class="s3"><b>return </b></span><span class="s1"><b>(</b>getattr<b>(</b>object<b>, </b></span><span class="s4">'name'</span><span class="s1"><b>, </b></span><span class="s4">0</span><span class="s1"><b>) </b></span><span class="s3"><b>or </b></span><span class="s1">getattr<b>(</b>object<b>, </b></span><span class="s4">'__name__'</span><span class="s1"><b>, </b></span><span class="s4">0</span><span class="s1"><b>)</b></span></p>
+<p class="p7"><span class="s1"><b><span class="Apple-converted-space">            </span></b></span><span class="s3"><b>or </b></span><span class="s1">getattr<b>(</b>getattr<b>(</b>object<b>, </b></span><span class="s4">'__class__'</span><span class="s1"><b>, </b></span><span class="s4">0</span><span class="s1"><b>), </b></span><span class="s4">'__name__'</span><span class="s1"><b>, </b></span><span class="s4">0</span><span class="s1"><b>)</b></span></p>
+<p class="p7"><span class="s1"><b><span class="Apple-converted-space">            </span></b></span><span class="s3"><b>or </b></span><span class="s1">str<b>(</b>object<b>))</b></span></p>
+<p class="p8"><span class="s1"><b></b></span><br></p>
+<p class="p7"><span class="s3"><b>def </b></span><span class="s1">isnumber<b>(</b>x<b>):</b></span></p>
+<p class="p9"><span class="s6"><b><span class="Apple-converted-space">    </span></b></span><span class="s1">"Is x a number? We say it is if it has a __int__ method."</span></p>
+<p class="p9"><span class="s1"><span class="Apple-converted-space">    </span></span><span class="s3"><b>return </b></span><span class="s6">hasattr<b>(</b>x<b>, </b></span><span class="s1">'__int__'</span><span class="s6"><b>)</b></span></p>
+<p class="p8"><span class="s1"><b></b></span><br></p>
+<p class="p7"><span class="s3"><b>def </b></span><span class="s1">issequence<b>(</b>x<b>):</b></span></p>
+<p class="p9"><span class="s6"><b><span class="Apple-converted-space">    </span></b></span><span class="s1">"Is x a sequence? We say it is if it has a __getitem__ method."</span></p>
+<p class="p9"><span class="s1"><span class="Apple-converted-space">    </span></span><span class="s3"><b>return </b></span><span class="s6">hasattr<b>(</b>x<b>, </b></span><span class="s1">'__getitem__'</span><span class="s6"><b>)</b></span></p>
+<p class="p8"><span class="s1"><b></b></span><br></p>
+<p class="p7"><span class="s3"><b>def </b></span><span class="s1">print_table<b>(</b>table<b>, </b>header<b>=</b></span><span class="s3">None</span><span class="s1"><b>, </b>sep<b>=</b></span><span class="s4">' <span class="Apple-converted-space">  </span>'</span><span class="s1"><b>, </b>numfmt<b>=</b></span><span class="s4">'%g'</span><span class="s1"><b>):</b></span></p>
+<p class="p5"><span class="s6"><b><span class="Apple-converted-space">    </span></b></span><span class="s1">"""Print a list of lists as a table, so that columns line up nicely.</span></p>
+<p class="p5"><span class="s1"><span class="Apple-converted-space">    </span>header, if specified, will be printed as the first row.</span></p>
+<p class="p5"><span class="s1"><span class="Apple-converted-space">    </span>numfmt is the format for all numbers; you might want e.g. '%6.2f'.</span></p>
+<p class="p5"><span class="s1"><span class="Apple-converted-space">    </span>(If you want different formats in different columns, don't use print_table.)</span></p>
+<p class="p5"><span class="s1"><span class="Apple-converted-space">    </span>sep is the separator between columns."""</span></p>
+<p class="p7"><span class="s5"><span class="Apple-converted-space">    </span></span><span class="s1">justs <b>= [</b>if_<b>(</b>isnumber<b>(</b>x<b>), </b></span><span class="s4">'rjust'</span><span class="s1"><b>, </b></span><span class="s4">'ljust'</span><span class="s1"><b>) </b></span><span class="s3"><b>for </b></span><span class="s1">x </span><span class="s3"><b>in </b></span><span class="s1">table<b>[</b></span><span class="s4">0</span><span class="s1"><b>]]</b></span></p>
+<p class="p7"><span class="s1"><b><span class="Apple-converted-space">    </span></b></span><span class="s3"><b>if </b></span><span class="s1">header<b>:</b></span></p>
+<p class="p7"><span class="s1"><b><span class="Apple-converted-space">        </span></b>table <b>= [</b>header<b>] + </b>table</span></p>
+<p class="p7"><span class="s1"><span class="Apple-converted-space">    </span>table <b>= [[</b>if_<b>(</b>isnumber<b>(</b>x<b>), </b></span><span class="s3"><b>lambda</b></span><span class="s1"><b>: </b>numfmt <b>% </b>x<b>, </b></span><span class="s3"><b>lambda</b></span><span class="s1"><b>: </b>x<b>) </b></span><span class="s3"><b>for </b></span><span class="s1">x </span><span class="s3"><b>in </b></span><span class="s1">row<b>]</b></span></p>
+<p class="p7"><span class="s1"><b><span class="Apple-converted-space">             </span></b></span><span class="s3"><b>for </b></span><span class="s1">row </span><span class="s3"><b>in </b></span><span class="s1">table<b>]</b></span></p>
+<p class="p7"><span class="s1"><b><span class="Apple-converted-space">    </span></b>maxlen <b>= </b></span><span class="s3"><b>lambda </b></span><span class="s1">seq<b>: </b>max<b>(</b>map<b>(</b>len<b>, </b>seq<b>))</b></span></p>
+<p class="p7"><span class="s1"><b><span class="Apple-converted-space">    </span></b>sizes <b>= </b>map<b>(</b>maxlen<b>, </b>zip<b>(*[</b>map<b>(</b>str<b>, </b>row<b>) </b></span><span class="s3"><b>for </b></span><span class="s1">row </span><span class="s3"><b>in </b></span><span class="s1">table<b>]))</b></span></p>
+<p class="p7"><span class="s1"><b><span class="Apple-converted-space">    </span></b></span><span class="s3"><b>for </b></span><span class="s1">row </span><span class="s3"><b>in </b></span><span class="s1">table<b>:</b></span></p>
+<p class="p7"><span class="s1"><b><span class="Apple-converted-space">        </span></b></span><span class="s3"><b>print </b></span><span class="s1">sep<b>.</b>join<b>(</b>getattr<b>(</b>str<b>(</b>x<b>), </b>j<b>)(</b>size<b>)</b></span></p>
+<p class="p7"><span class="s1"><b><span class="Apple-converted-space">                       </span></b></span><span class="s3"><b>for </b></span><span class="s1"><b>(</b>j<b>, </b>size<b>, </b>x<b>) </b></span><span class="s3"><b>in </b></span><span class="s1">zip<b>(</b>justs<b>, </b>sizes<b>, </b>row<b>))</b></span></p>
+<p class="p8"><span class="s1"><b></b></span><br></p>
+<p class="p7"><span class="s3"><b>def </b></span><span class="s1">AIMAFile<b>(</b>components<b>, </b>mode<b>=</b></span><span class="s4">'r'</span><span class="s1"><b>):</b></span></p>
+<p class="p9"><span class="s6"><b><span class="Apple-converted-space">    </span></b></span><span class="s1">"Open a file based at the AIMA root directory."</span></p>
+<p class="p11"><span class="s4"><span class="Apple-converted-space">    </span></span><span class="s1"><b>import </b></span><span class="s6">utils</span></p>
+<p class="p7"><span class="s1"><span class="Apple-converted-space">    </span>dir <b>= </b>os<b>.</b>path<b>.</b>dirname<b>(</b>utils<b>.</b>__file__<b>)</b></span></p>
+<p class="p7"><span class="s1"><b><span class="Apple-converted-space">    </span></b></span><span class="s3"><b>return </b></span><span class="s1">open<b>(</b>apply<b>(</b>os<b>.</b>path<b>.</b>join<b>, [</b>dir<b>] + </b>components<b>), </b>mode<b>)</b></span></p>
+<p class="p8"><span class="s1"><b></b></span><br></p>
+<p class="p7"><span class="s3"><b>def </b></span><span class="s1">DataFile<b>(</b>name<b>, </b>mode<b>=</b></span><span class="s4">'r'</span><span class="s1"><b>):</b></span></p>
+<p class="p9"><span class="s6"><b><span class="Apple-converted-space">    </span></b></span><span class="s1">"Return a file in the AIMA /data directory."</span></p>
+<p class="p7"><span class="s4"><span class="Apple-converted-space">    </span></span><span class="s3"><b>return </b></span><span class="s1">AIMAFile<b>([</b></span><span class="s4">'..'</span><span class="s1"><b>, </b></span><span class="s4">'data'</span><span class="s1"><b>, </b>name<b>], </b>mode<b>)</b></span></p>
+<p class="p8"><span class="s1"><b></b></span><br></p>
+<p class="p7"><span class="s3"><b>def </b></span><span class="s1">unimplemented<b>():</b></span></p>
+<p class="p9"><span class="s6"><b><span class="Apple-converted-space">    </span></b></span><span class="s1">"Use this as a stub for not-yet-implemented functions."</span></p>
+<p class="p7"><span class="s4"><span class="Apple-converted-space">    </span></span><span class="s3"><b>raise </b></span><span class="s1">NotImplementedError</span></p>
+<p class="p8"><span class="s1"></span><br></p>
+<p class="p3"><span class="s1"><i>#______________________________________________________________________________</i></span></p>
+<p class="p3"><span class="s1"><i># CTM: misc Wumpus utils</i></span></p>
+<p class="p4"><span class="s1"><i></i></span><br></p>
+<p class="p7"><span class="s3"><b>def </b></span><span class="s1">all_empty_strings<b>(</b>list<b>):</b></span></p>
+<p class="p7"><span class="s1"><b><span class="Apple-converted-space">    </span></b></span><span class="s5">"""</span></p>
+<p class="p5"><span class="s1"><span class="Apple-converted-space">    </span>Returns true if all strings in list are empty strings, e.g.: ['','','']</span></p>
+<p class="p5"><span class="s1"><span class="Apple-converted-space">    </span>Used to test whether an axiom_generator has been implemented.</span></p>
+<p class="p5"><span class="s1"><span class="Apple-converted-space">    </span>"""</span></p>
+<p class="p7"><span class="s5"><span class="Apple-converted-space">    </span></span><span class="s3"><b>for </b></span><span class="s1">s </span><span class="s3"><b>in </b></span><span class="s1">list<b>:</b></span></p>
+<p class="p11"><span class="s6"><b><span class="Apple-converted-space">        </span></b></span><span class="s1"><b>if </b></span><span class="s6">s<b>: </b></span><span class="s1"><b>return False</b></span></p>
+<p class="p11"><span class="s1"><b><span class="Apple-converted-space">    </span>return True</b></span></p>
+<p class="p12"><span class="s1"><b></b></span><br></p>
+<p class="p7"><span class="s3"><b>def </b></span><span class="s1">print_not_implemented<b>(</b>name<b>=</b></span><span class="s3">None</span><span class="s1"><b>):</b></span></p>
+<p class="p7"><span class="s1"><b><span class="Apple-converted-space">    </span></b></span><span class="s5">"""</span></p>
+<p class="p5"><span class="s1"><span class="Apple-converted-space">    </span>Used to express during runtime whether function has been implemented.</span></p>
+<p class="p5"><span class="s1"><span class="Apple-converted-space">    </span>Instances of these functions occuring directly after instances of</span></p>
+<p class="p5"><span class="s1"><span class="Apple-converted-space">    </span>"*** YOUR CODE HERE ***" may be commented-out or deleted once the</span></p>
+<p class="p5"><span class="s1"><span class="Apple-converted-space">    </span>function has been implemented.</span></p>
+<p class="p5"><span class="s1"><span class="Apple-converted-space">    </span>(It is not recommended to remove instances of these fns</span></p>
+<p class="p5"><span class="s1"><span class="Apple-converted-space">    </span>elsewhere: instead, a test will determine whether the fn has been</span></p>
+<p class="p5"><span class="s1"><span class="Apple-converted-space">    </span>implemented and print_not_implemented gets called.)</span></p>
+<p class="p5"><span class="s1"><span class="Apple-converted-space">    </span>"""</span></p>
+<p class="p9"><span class="s5"><span class="Apple-converted-space">    </span></span><span class="s3"><b>print </b></span><span class="s1">"--&gt; {0}() is not implemented."</span><span class="s6"><b>.</b>format<b>(</b>name </span><span class="s3"><b>if </b></span><span class="s6">name <b>!= </b></span><span class="s3">None <b>else </b></span><span class="s6">caller<b>(</b></span><span class="s1">2</span><span class="s6"><b>))</b></span></p>
+<p class="p8"><span class="s1"><b></b></span><br></p>
+<p class="p3"><span class="s1"><i>#______________________________________________________________________________</i></span></p>
+<p class="p3"><span class="s1"><i># Queues: Stack, FIFOQueue, PriorityQueue</i></span></p>
+<p class="p4"><span class="s1"><i></i></span><br></p>
+<p class="p7"><span class="s3"><b>class </b></span><span class="s1">Queue<b>:</b></span></p>
+<p class="p5"><span class="s6"><b><span class="Apple-converted-space">    </span></b></span><span class="s1">"""Queue is an abstract class/interface. There are three types:</span></p>
+<p class="p5"><span class="s1"><span class="Apple-converted-space">        </span>Stack(): A Last In First Out Queue.</span></p>
+<p class="p5"><span class="s1"><span class="Apple-converted-space">        </span>FIFOQueue(): A First In First Out Queue.</span></p>
+<p class="p5"><span class="s1"><span class="Apple-converted-space">        </span>PriorityQueue(order, f): Queue in sorted order (default min-first).</span></p>
+<p class="p5"><span class="s1"><span class="Apple-converted-space">    </span>Each type supports the following methods and functions:</span></p>
+<p class="p5"><span class="s1"><span class="Apple-converted-space">        </span>q.append(item)<span class="Apple-converted-space">  </span>-- add an item to the queue</span></p>
+<p class="p5"><span class="s1"><span class="Apple-converted-space">        </span>q.extend(items) -- equivalent to: for item in items: q.append(item)</span></p>
+<p class="p5"><span class="s1"><span class="Apple-converted-space">        </span>q.pop() <span class="Apple-converted-space">        </span>-- return the top item from the queue</span></p>
+<p class="p5"><span class="s1"><span class="Apple-converted-space">        </span>len(q)<span class="Apple-converted-space">          </span>-- number of items in q (also q.__len())</span></p>
+<p class="p5"><span class="s1"><span class="Apple-converted-space">        </span>item in q <span class="Apple-converted-space">      </span>-- does q contain item?</span></p>
+<p class="p5"><span class="s1"><span class="Apple-converted-space">    </span>Note that isinstance(Stack(), Queue) is false, because we implement stacks</span></p>
+<p class="p5"><span class="s1"><span class="Apple-converted-space">    </span>as lists.<span class="Apple-converted-space">  </span>If Python ever gets interfaces, Queue will be an interface."""</span></p>
+<p class="p6"><span class="s1"></span><br></p>
+<p class="p7"><span class="s5"><span class="Apple-converted-space">    </span></span><span class="s3"><b>def </b></span><span class="s1">__init__<b>(</b></span><span class="s3">self</span><span class="s1"><b>):</b></span></p>
+<p class="p7"><span class="s1"><b><span class="Apple-converted-space">        </span></b>abstract</span></p>
+<p class="p8"><span class="s1"></span><br></p>
+<p class="p7"><span class="s1"><span class="Apple-converted-space">    </span></span><span class="s3"><b>def </b></span><span class="s1">extend<b>(</b></span><span class="s3">self</span><span class="s1"><b>, </b>items<b>):</b></span></p>
+<p class="p7"><span class="s1"><b><span class="Apple-converted-space">        </span></b></span><span class="s3"><b>for </b></span><span class="s1">item </span><span class="s3"><b>in </b></span><span class="s1">items<b>: </b></span><span class="s3">self</span><span class="s1"><b>.</b>append<b>(</b>item<b>)</b></span></p>
+<p class="p8"><span class="s1"><b></b></span><br></p>
+<p class="p7"><span class="s3"><b>def </b></span><span class="s1">Stack<b>():</b></span></p>
+<p class="p5"><span class="s6"><b><span class="Apple-converted-space">    </span></b></span><span class="s1">"""Return an empty list, suitable as a Last-In-First-Out Queue."""</span></p>
+<p class="p11"><span class="s5"><span class="Apple-converted-space">    </span></span><span class="s1"><b>return </b></span><span class="s6"><b>[]</b></span></p>
+<p class="p8"><span class="s1"><b></b></span><br></p>
+<p class="p7"><span class="s3"><b>class </b></span><span class="s1">FIFOQueue<b>(</b>Queue<b>):</b></span></p>
+<p class="p5"><span class="s6"><b><span class="Apple-converted-space">    </span></b></span><span class="s1">"""A First-In-First-Out Queue."""</span></p>
+<p class="p7"><span class="s5"><span class="Apple-converted-space">    </span></span><span class="s3"><b>def </b></span><span class="s1">__init__<b>(</b></span><span class="s3">self</span><span class="s1"><b>):</b></span></p>
+<p class="p7"><span class="s1"><b><span class="Apple-converted-space">        </span></b></span><span class="s3">self</span><span class="s1"><b>.</b>A <b>= []</b>; </span><span class="s3">self</span><span class="s1"><b>.</b>start <b>= </b></span><span class="s4">0</span></p>
+<p class="p7"><span class="s4"><span class="Apple-converted-space">    </span></span><span class="s3"><b>def </b></span><span class="s1">append<b>(</b></span><span class="s3">self</span><span class="s1"><b>, </b>item<b>):</b></span></p>
+<p class="p7"><span class="s1"><b><span class="Apple-converted-space">        </span></b></span><span class="s3">self</span><span class="s1"><b>.</b>A<b>.</b>append<b>(</b>item<b>)</b></span></p>
+<p class="p7"><span class="s1"><b><span class="Apple-converted-space">    </span></b></span><span class="s3"><b>def </b></span><span class="s1">__len__<b>(</b></span><span class="s3">self</span><span class="s1"><b>):</b></span></p>
+<p class="p7"><span class="s1"><b><span class="Apple-converted-space">        </span></b></span><span class="s3"><b>return </b></span><span class="s1">len<b>(</b></span><span class="s3">self</span><span class="s1"><b>.</b>A<b>) - </b></span><span class="s3">self</span><span class="s1"><b>.</b>start</span></p>
+<p class="p7"><span class="s1"><span class="Apple-converted-space">    </span></span><span class="s3"><b>def </b></span><span class="s1">extend<b>(</b></span><span class="s3">self</span><span class="s1"><b>, </b>items<b>):</b></span></p>
+<p class="p7"><span class="s1"><b><span class="Apple-converted-space">        </span></b></span><span class="s3">self</span><span class="s1"><b>.</b>A<b>.</b>extend<b>(</b>items<b>)</b></span></p>
+<p class="p7"><span class="s1"><b><span class="Apple-converted-space">    </span></b></span><span class="s3"><b>def </b></span><span class="s1">pop<b>(</b></span><span class="s3">self</span><span class="s1"><b>):</b></span></p>
+<p class="p7"><span class="s1"><b><span class="Apple-converted-space">        </span></b>e <b>= </b></span><span class="s3">self</span><span class="s1"><b>.</b>A<b>[</b></span><span class="s3">self</span><span class="s1"><b>.</b>start<b>]</b></span></p>
+<p class="p7"><span class="s1"><b><span class="Apple-converted-space">        </span></b></span><span class="s3">self</span><span class="s1"><b>.</b>start <b>+= </b></span><span class="s4">1</span></p>
+<p class="p7"><span class="s4"><span class="Apple-converted-space">        </span></span><span class="s3"><b>if </b>self</span><span class="s1"><b>.</b>start <b>&gt; </b></span><span class="s4">5 </span><span class="s3"><b>and </b>self</span><span class="s1"><b>.</b>start <b>&gt; </b>len<b>(</b></span><span class="s3">self</span><span class="s1"><b>.</b>A<b>)/</b></span><span class="s4">2</span><span class="s1"><b>:</b></span></p>
+<p class="p7"><span class="s1"><b><span class="Apple-converted-space">            </span></b></span><span class="s3">self</span><span class="s1"><b>.</b>A <b>= </b></span><span class="s3">self</span><span class="s1"><b>.</b>A<b>[</b></span><span class="s3">self</span><span class="s1"><b>.</b>start<b>:]</b></span></p>
+<p class="p7"><span class="s1"><b><span class="Apple-converted-space">            </span></b></span><span class="s3">self</span><span class="s1"><b>.</b>start <b>= </b></span><span class="s4">0</span></p>
+<p class="p9"><span class="s1"><span class="Apple-converted-space">        </span></span><span class="s3"><b>return </b></span><span class="s6">e</span></p>
+<p class="p7"><span class="s1"><span class="Apple-converted-space">    </span></span><span class="s3"><b>def </b></span><span class="s1">__contains__<b>(</b></span><span class="s3">self</span><span class="s1"><b>, </b>item<b>):</b></span></p>
+<p class="p7"><span class="s1"><b><span class="Apple-converted-space">        </span></b></span><span class="s3"><b>return </b></span><span class="s1">item </span><span class="s3"><b>in </b>self</span><span class="s1"><b>.</b>A<b>[</b></span><span class="s3">self</span><span class="s1"><b>.</b>start<b>:]</b></span></p>
+<p class="p8"><span class="s1"><b></b></span><br></p>
+<p class="p7"><span class="s3"><b>class </b></span><span class="s1">PriorityQueue<b>(</b>Queue<b>):</b></span></p>
+<p class="p5"><span class="s6"><b><span class="Apple-converted-space">    </span></b></span><span class="s1">"""A queue in which the minimum (or maximum) element (as determined by f and</span></p>
+<p class="p5"><span class="s1"><span class="Apple-converted-space">    </span>order) is returned first. If order is min, the item with minimum f(x) is</span></p>
+<p class="p5"><span class="s1"><span class="Apple-converted-space">    </span>returned first; if order is max, then it is the item with maximum f(x).</span></p>
+<p class="p5"><span class="s1"><span class="Apple-converted-space">    </span>Also supports dict-like lookup."""</span></p>
+<p class="p7"><span class="s5"><span class="Apple-converted-space">    </span></span><span class="s3"><b>def </b></span><span class="s1">__init__<b>(</b></span><span class="s3">self</span><span class="s1"><b>, </b>order<b>=</b>min<b>, </b>f<b>=</b></span><span class="s3"><b>lambda </b></span><span class="s1">x<b>: </b>x<b>):</b></span></p>
+<p class="p7"><span class="s1"><b><span class="Apple-converted-space">        </span></b>update<b>(</b></span><span class="s3">self</span><span class="s1"><b>, </b>A<b>=[], </b>order<b>=</b>order<b>, </b>f<b>=</b>f<b>)</b></span></p>
+<p class="p7"><span class="s1"><b><span class="Apple-converted-space">    </span></b></span><span class="s3"><b>def </b></span><span class="s1">append<b>(</b></span><span class="s3">self</span><span class="s1"><b>, </b>item<b>):</b></span></p>
+<p class="p7"><span class="s1"><b><span class="Apple-converted-space">        </span></b>bisect<b>.</b>insort<b>(</b></span><span class="s3">self</span><span class="s1"><b>.</b>A<b>, (</b></span><span class="s3">self</span><span class="s1"><b>.</b>f<b>(</b>item<b>), </b>item<b>))</b></span></p>
+<p class="p7"><span class="s1"><b><span class="Apple-converted-space">    </span></b></span><span class="s3"><b>def </b></span><span class="s1">__len__<b>(</b></span><span class="s3">self</span><span class="s1"><b>):</b></span></p>
+<p class="p7"><span class="s1"><b><span class="Apple-converted-space">        </span></b></span><span class="s3"><b>return </b></span><span class="s1">len<b>(</b></span><span class="s3">self</span><span class="s1"><b>.</b>A<b>)</b></span></p>
+<p class="p7"><span class="s1"><b><span class="Apple-converted-space">    </span></b></span><span class="s3"><b>def </b></span><span class="s1">pop<b>(</b></span><span class="s3">self</span><span class="s1"><b>):</b></span></p>
+<p class="p7"><span class="s1"><b><span class="Apple-converted-space">        </span></b></span><span class="s3"><b>if </b>self</span><span class="s1"><b>.</b>order <b>== </b>min<b>:</b></span></p>
+<p class="p7"><span class="s1"><b><span class="Apple-converted-space">            </span></b></span><span class="s3"><b>return </b>self</span><span class="s1"><b>.</b>A<b>.</b>pop<b>(</b></span><span class="s4">0</span><span class="s1"><b>)[</b></span><span class="s4">1</span><span class="s1"><b>]</b></span></p>
+<p class="p7"><span class="s1"><b><span class="Apple-converted-space">        </span></b></span><span class="s3"><b>else</b></span><span class="s1"><b>:</b></span></p>
+<p class="p7"><span class="s1"><b><span class="Apple-converted-space">            </span></b></span><span class="s3"><b>return </b>self</span><span class="s1"><b>.</b>A<b>.</b>pop<b>()[</b></span><span class="s4">1</span><span class="s1"><b>]</b></span></p>
+<p class="p7"><span class="s1"><b><span class="Apple-converted-space">    </span></b></span><span class="s3"><b>def </b></span><span class="s1">__contains__<b>(</b></span><span class="s3">self</span><span class="s1"><b>, </b>item<b>):</b></span></p>
+<p class="p7"><span class="s1"><b><span class="Apple-converted-space">        </span></b></span><span class="s3"><b>return </b></span><span class="s1">some<b>(</b></span><span class="s3"><b>lambda </b></span><span class="s1"><b>(</b>_<b>, </b>x<b>): </b>x <b>== </b>item<b>, </b></span><span class="s3">self</span><span class="s1"><b>.</b>A<b>)</b></span></p>
+<p class="p7"><span class="s1"><b><span class="Apple-converted-space">    </span></b></span><span class="s3"><b>def </b></span><span class="s1">__getitem__<b>(</b></span><span class="s3">self</span><span class="s1"><b>, </b>key<b>):</b></span></p>
+<p class="p7"><span class="s1"><b><span class="Apple-converted-space">        </span></b></span><span class="s3"><b>for </b></span><span class="s1">_<b>, </b>item </span><span class="s3"><b>in </b>self</span><span class="s1"><b>.</b>A<b>:</b></span></p>
+<p class="p7"><span class="s1"><b><span class="Apple-converted-space">            </span></b></span><span class="s3"><b>if </b></span><span class="s1">item <b>== </b>key<b>:</b></span></p>
+<p class="p7"><span class="s1"><b><span class="Apple-converted-space">                </span></b></span><span class="s3"><b>return </b></span><span class="s1">item</span></p>
+<p class="p7"><span class="s1"><span class="Apple-converted-space">    </span></span><span class="s3"><b>def </b></span><span class="s1">__delitem__<b>(</b></span><span class="s3">self</span><span class="s1"><b>, </b>key<b>):</b></span></p>
+<p class="p7"><span class="s1"><b><span class="Apple-converted-space">        </span></b></span><span class="s3"><b>for </b></span><span class="s1">i<b>, (</b>value<b>, </b>item<b>) </b></span><span class="s3"><b>in </b></span><span class="s1">enumerate<b>(</b></span><span class="s3">self</span><span class="s1"><b>.</b>A<b>):</b></span></p>
+<p class="p7"><span class="s1"><b><span class="Apple-converted-space">            </span></b></span><span class="s3"><b>if </b></span><span class="s1">item <b>== </b>key<b>:</b></span></p>
+<p class="p7"><span class="s1"><b><span class="Apple-converted-space">                </span></b></span><span class="s3">self</span><span class="s1"><b>.</b>A<b>.</b>pop<b>(</b>i<b>)</b></span></p>
+<p class="p7"><span class="s1"><b><span class="Apple-converted-space">                </span></b></span><span class="s3"><b>return</b></span></p>
+<p class="p12"><span class="s1"><b></b></span><br></p>
+<p class="p3"><span class="s1"><i>## Fig: The idea is we can define things like Fig[3,10] later.</i></span></p>
+<p class="p3"><span class="s1"><i>## Alas, it is Fig[3,10] not Fig[3.10], because that would be the same</i></span></p>
+<p class="p3"><span class="s1"><i>## as Fig[3.1]</i></span></p>
+<p class="p7"><span class="s1">Fig <b>= {}</b></span></p>
+<p class="p8"><span class="s1"><b></b></span><br></p>
+<p class="p3"><span class="s1"><i>#______________________________________________________________________________</i></span></p>
+<p class="p3"><span class="s1"><i># Support for doctest</i></span></p>
+<p class="p4"><span class="s1"><i></i></span><br></p>
+<p class="p7"><span class="s3"><b>def </b></span><span class="s1">ignore<b>(</b>x<b>): </b></span><span class="s3">None</span></p>
+<p class="p12"><span class="s1"></span><br></p>
+<p class="p7"><span class="s3"><b>def </b></span><span class="s1">random_tests<b>(</b>text<b>):</b></span></p>
+<p class="p5"><span class="s6"><b><span class="Apple-converted-space">    </span></b></span><span class="s1">"""Some functions are stochastic. We want to be able to write a test</span></p>
+<p class="p5"><span class="s1"><span class="Apple-converted-space">    </span>with random output.<span class="Apple-converted-space">  </span>We do that by ignoring the output."""</span></p>
+<p class="p7"><span class="s5"><span class="Apple-converted-space">    </span></span><span class="s3"><b>def </b></span><span class="s1">fixup<b>(</b>test<b>):</b></span></p>
+<p class="p7"><span class="s1"><b><span class="Apple-converted-space">        </span></b></span><span class="s3"><b>if </b></span><span class="s4">" = " </span><span class="s3"><b>in </b></span><span class="s1">test<b>:</b></span></p>
+<p class="p7"><span class="s1"><b><span class="Apple-converted-space">            </span></b></span><span class="s3"><b>return </b></span><span class="s4">"&gt;&gt;&gt; " </span><span class="s1"><b>+ </b>test</span></p>
+<p class="p7"><span class="s1"><span class="Apple-converted-space">        </span></span><span class="s3"><b>else</b></span><span class="s1"><b>:</b></span></p>
+<p class="p7"><span class="s1"><b><span class="Apple-converted-space">            </span></b></span><span class="s3"><b>return </b></span><span class="s4">"&gt;&gt;&gt; ignore(" </span><span class="s1"><b>+ </b>test <b>+ </b></span><span class="s4">")"</span></p>
+<p class="p7"><span class="s4"><span class="Apple-converted-space">    </span></span><span class="s1">tests <b>=<span class="Apple-converted-space">  </span></b>re<b>.</b>findall<b>(</b></span><span class="s4">"&gt;&gt;&gt; (.*)"</span><span class="s1"><b>, </b>text<b>)</b></span></p>
+<p class="p7"><span class="s1"><b><span class="Apple-converted-space">    </span></b></span><span class="s3"><b>return </b></span><span class="s4">'\n'</span><span class="s1"><b>.</b>join<b>(</b>map<b>(</b>fixup<b>, </b>tests<b>))</b></span></p>
+<p class="p8"><span class="s1"><b></b></span><br></p>
+<p class="p3"><span class="s1"><i>#______________________________________________________________________________</i></span></p>
+<p class="p4"><span class="s1"><i></i></span><br></p>
+<p class="p7"><span class="s1">__doc__ <b>+= </b></span><span class="s5">"""</span></p>
+<p class="p5"><span class="s1">&gt;&gt;&gt; d = DefaultDict(0)</span></p>
+<p class="p5"><span class="s1">&gt;&gt;&gt; d['x'] += 1</span></p>
+<p class="p5"><span class="s1">&gt;&gt;&gt; d['x']</span></p>
+<p class="p5"><span class="s1">1</span></p>
+<p class="p6"><span class="s1"></span><br></p>
+<p class="p5"><span class="s1">&gt;&gt;&gt; d = DefaultDict([])</span></p>
+<p class="p5"><span class="s1">&gt;&gt;&gt; d['x'] += [1]</span></p>
+<p class="p5"><span class="s1">&gt;&gt;&gt; d['y'] += [2]</span></p>
+<p class="p5"><span class="s1">&gt;&gt;&gt; d['x']</span></p>
+<p class="p5"><span class="s1">[1]</span></p>
+<p class="p6"><span class="s1"></span><br></p>
+<p class="p5"><span class="s1">&gt;&gt;&gt; s = Struct(a=1, b=2)</span></p>
+<p class="p5"><span class="s1">&gt;&gt;&gt; s.a</span></p>
+<p class="p5"><span class="s1">1</span></p>
+<p class="p5"><span class="s1">&gt;&gt;&gt; s.a = 3</span></p>
+<p class="p5"><span class="s1">&gt;&gt;&gt; s</span></p>
+<p class="p5"><span class="s1">Struct(a=3, b=2)</span></p>
+<p class="p6"><span class="s1"></span><br></p>
+<p class="p5"><span class="s1">&gt;&gt;&gt; def is_even(x):</span></p>
+<p class="p5"><span class="s1">... <span class="Apple-converted-space">    </span>return x % 2 == 0</span></p>
+<p class="p5"><span class="s1">&gt;&gt;&gt; sorted([1, 2, -3])</span></p>
+<p class="p5"><span class="s1">[-3, 1, 2]</span></p>
+<p class="p5"><span class="s1">&gt;&gt;&gt; sorted(range(10), key=is_even)</span></p>
+<p class="p5"><span class="s1">[1, 3, 5, 7, 9, 0, 2, 4, 6, 8]</span></p>
+<p class="p5"><span class="s1">&gt;&gt;&gt; sorted(range(10), lambda x,y: y-x)</span></p>
+<p class="p5"><span class="s1">[9, 8, 7, 6, 5, 4, 3, 2, 1, 0]</span></p>
+<p class="p6"><span class="s1"></span><br></p>
+<p class="p5"><span class="s1">&gt;&gt;&gt; removeall(4, [])</span></p>
+<p class="p5"><span class="s1">[]</span></p>
+<p class="p5"><span class="s1">&gt;&gt;&gt; removeall('s', 'This is a test. Was a test.')</span></p>
+<p class="p5"><span class="s1">'Thi i a tet. Wa a tet.'</span></p>
+<p class="p5"><span class="s1">&gt;&gt;&gt; removeall('s', 'Something')</span></p>
+<p class="p5"><span class="s1">'Something'</span></p>
+<p class="p5"><span class="s1">&gt;&gt;&gt; removeall('s', '')</span></p>
+<p class="p5"><span class="s1">''</span></p>
+<p class="p6"><span class="s1"></span><br></p>
+<p class="p5"><span class="s1">&gt;&gt;&gt; list(reversed([]))</span></p>
+<p class="p5"><span class="s1">[]</span></p>
+<p class="p6"><span class="s1"></span><br></p>
+<p class="p5"><span class="s1">&gt;&gt;&gt; count_if(is_even, [1, 2, 3, 4])</span></p>
+<p class="p5"><span class="s1">2</span></p>
+<p class="p5"><span class="s1">&gt;&gt;&gt; count_if(is_even, [])</span></p>
+<p class="p5"><span class="s1">0</span></p>
+<p class="p6"><span class="s1"></span><br></p>
+<p class="p5"><span class="s1">&gt;&gt;&gt; argmax([1], lambda x: x*x)</span></p>
+<p class="p5"><span class="s1">1</span></p>
+<p class="p5"><span class="s1">&gt;&gt;&gt; argmin([1], lambda x: x*x)</span></p>
+<p class="p5"><span class="s1">1</span></p>
+<p class="p6"><span class="s1"></span><br></p>
+<p class="p6"><span class="s1"></span><br></p>
+<p class="p5"><span class="s1"># Test of memoize with slots in structures</span></p>
+<p class="p5"><span class="s1">&gt;&gt;&gt; countries = [Struct(name='united states'), Struct(name='canada')]</span></p>
+<p class="p6"><span class="s1"></span><br></p>
+<p class="p5"><span class="s1"># Pretend that 'gnp' was some big hairy operation:</span></p>
+<p class="p5"><span class="s1">&gt;&gt;&gt; def gnp(country):</span></p>
+<p class="p5"><span class="s1">... <span class="Apple-converted-space">    </span>print 'calculating gnp ...'</span></p>
+<p class="p5"><span class="s1">... <span class="Apple-converted-space">    </span>return len(country.name) * 1e10</span></p>
+<p class="p6"><span class="s1"></span><br></p>
+<p class="p5"><span class="s1">&gt;&gt;&gt; gnp = memoize(gnp, '_gnp')</span></p>
+<p class="p5"><span class="s1">&gt;&gt;&gt; map(gnp, countries)</span></p>
+<p class="p5"><span class="s1">calculating gnp ...</span></p>
+<p class="p5"><span class="s1">calculating gnp ...</span></p>
+<p class="p5"><span class="s1">[130000000000.0, 60000000000.0]</span></p>
+<p class="p5"><span class="s1">&gt;&gt;&gt; countries</span></p>
+<p class="p5"><span class="s1">[Struct(_gnp=130000000000.0, name='united states'), Struct(_gnp=60000000000.0, name='canada')]</span></p>
+<p class="p6"><span class="s1"></span><br></p>
+<p class="p5"><span class="s1"># This time we avoid re-doing the calculation</span></p>
+<p class="p5"><span class="s1">&gt;&gt;&gt; map(gnp, countries)</span></p>
+<p class="p5"><span class="s1">[130000000000.0, 60000000000.0]</span></p>
+<p class="p6"><span class="s1"></span><br></p>
+<p class="p5"><span class="s1"># Test Queues:</span></p>
+<p class="p5"><span class="s1">&gt;&gt;&gt; nums = [1, 8, 2, 7, 5, 6, -99, 99, 4, 3, 0]</span></p>
+<p class="p5"><span class="s1">&gt;&gt;&gt; def qtest(q):</span></p>
+<p class="p5"><span class="s1">... <span class="Apple-converted-space">    </span>q.extend(nums)</span></p>
+<p class="p5"><span class="s1">... <span class="Apple-converted-space">    </span>for num in nums: assert num in q</span></p>
+<p class="p5"><span class="s1">... <span class="Apple-converted-space">    </span>assert 42 not in q</span></p>
+<p class="p5"><span class="s1">... <span class="Apple-converted-space">    </span>return [q.pop() for i in range(len(q))]</span></p>
+<p class="p5"><span class="s1">&gt;&gt;&gt; qtest(Stack())</span></p>
+<p class="p5"><span class="s1">[0, 3, 4, 99, -99, 6, 5, 7, 2, 8, 1]</span></p>
+<p class="p6"><span class="s1"></span><br></p>
+<p class="p5"><span class="s1">&gt;&gt;&gt; qtest(FIFOQueue())</span></p>
+<p class="p5"><span class="s1">[1, 8, 2, 7, 5, 6, -99, 99, 4, 3, 0]</span></p>
+<p class="p6"><span class="s1"></span><br></p>
+<p class="p5"><span class="s1">&gt;&gt;&gt; qtest(PriorityQueue(min))</span></p>
+<p class="p5"><span class="s1">[-99, 0, 1, 2, 3, 4, 5, 6, 7, 8, 99]</span></p>
+<p class="p6"><span class="s1"></span><br></p>
+<p class="p5"><span class="s1">&gt;&gt;&gt; qtest(PriorityQueue(max))</span></p>
+<p class="p5"><span class="s1">[99, 8, 7, 6, 5, 4, 3, 2, 1, 0, -99]</span></p>
+<p class="p6"><span class="s1"></span><br></p>
+<p class="p5"><span class="s1">&gt;&gt;&gt; qtest(PriorityQueue(min, abs))</span></p>
+<p class="p5"><span class="s1">[0, 1, 2, 3, 4, 5, 6, 7, 8, -99, 99]</span></p>
+<p class="p6"><span class="s1"></span><br></p>
+<p class="p5"><span class="s1">&gt;&gt;&gt; qtest(PriorityQueue(max, abs))</span></p>
+<p class="p5"><span class="s1">[99, -99, 8, 7, 6, 5, 4, 3, 2, 1, 0]</span></p>
+<p class="p6"><span class="s1"></span><br></p>
+<p class="p5"><span class="s1">&gt;&gt;&gt; vals = [100, 110, 160, 200, 160, 110, 200, 200, 220]</span></p>
+<p class="p5"><span class="s1">&gt;&gt;&gt; histogram(vals)</span></p>
+<p class="p5"><span class="s1">[(100, 1), (110, 2), (160, 2), (200, 3), (220, 1)]</span></p>
+<p class="p5"><span class="s1">&gt;&gt;&gt; histogram(vals, 1)</span></p>
+<p class="p5"><span class="s1">[(200, 3), (160, 2), (110, 2), (220, 1), (100, 1)]</span></p>
+<p class="p5"><span class="s1">&gt;&gt;&gt; histogram(vals, 1, lambda v: round(v, -2))</span></p>
+<p class="p5"><span class="s1">[(200.0, 6), (100.0, 3)]</span></p>
+<p class="p6"><span class="s1"></span><br></p>
+<p class="p5"><span class="s1">&gt;&gt;&gt; log2(1.0)</span></p>
+<p class="p5"><span class="s1">0.0</span></p>
+<p class="p6"><span class="s1"></span><br></p>
+<p class="p5"><span class="s1">&gt;&gt;&gt; def fib(n):</span></p>
+<p class="p5"><span class="s1">... <span class="Apple-converted-space">    </span>return (n&lt;=1 and 1) or (fib(n-1) + fib(n-2))</span></p>
+<p class="p6"><span class="s1"></span><br></p>
+<p class="p5"><span class="s1">&gt;&gt;&gt; fib(9)</span></p>
+<p class="p5"><span class="s1">55</span></p>
+<p class="p6"><span class="s1"></span><br></p>
+<p class="p5"><span class="s1"># Now we make it faster:</span></p>
+<p class="p5"><span class="s1">&gt;&gt;&gt; fib = memoize(fib)</span></p>
+<p class="p5"><span class="s1">&gt;&gt;&gt; fib(9)</span></p>
+<p class="p5"><span class="s1">55</span></p>
+<p class="p6"><span class="s1"></span><br></p>
+<p class="p5"><span class="s1">&gt;&gt;&gt; q = Stack()</span></p>
+<p class="p5"><span class="s1">&gt;&gt;&gt; q.append(1)</span></p>
+<p class="p5"><span class="s1">&gt;&gt;&gt; q.append(2)</span></p>
+<p class="p5"><span class="s1">&gt;&gt;&gt; q.pop(), q.pop()</span></p>
+<p class="p5"><span class="s1">(2, 1)</span></p>
+<p class="p6"><span class="s1"></span><br></p>
+<p class="p5"><span class="s1">&gt;&gt;&gt; q = FIFOQueue()</span></p>
+<p class="p5"><span class="s1">&gt;&gt;&gt; q.append(1)</span></p>
+<p class="p5"><span class="s1">&gt;&gt;&gt; q.append(2)</span></p>
+<p class="p5"><span class="s1">&gt;&gt;&gt; q.pop(), q.pop()</span></p>
+<p class="p5"><span class="s1">(1, 2)</span></p>
+<p class="p6"><span class="s1"></span><br></p>
+<p class="p6"><span class="s1"></span><br></p>
+<p class="p5"><span class="s1">&gt;&gt;&gt; abc = set('abc')</span></p>
+<p class="p5"><span class="s1">&gt;&gt;&gt; bcd = set('bcd')</span></p>
+<p class="p5"><span class="s1">&gt;&gt;&gt; 'a' in abc</span></p>
+<p class="p5"><span class="s1">True</span></p>
+<p class="p5"><span class="s1">&gt;&gt;&gt; 'a' in bcd</span></p>
+<p class="p5"><span class="s1">False</span></p>
+<p class="p5"><span class="s1">&gt;&gt;&gt; list(abc.intersection(bcd))</span></p>
+<p class="p5"><span class="s1">['c', 'b']</span></p>
+<p class="p5"><span class="s1">&gt;&gt;&gt; list(abc.union(bcd))</span></p>
+<p class="p5"><span class="s1">['a', 'c', 'b', 'd']</span></p>
+<p class="p6"><span class="s1"></span><br></p>
+<p class="p5"><span class="s1">## From "What's new in Python 2.4", but I added calls to sl</span></p>
+<p class="p6"><span class="s1"></span><br></p>
+<p class="p5"><span class="s1">&gt;&gt;&gt; def sl(x):</span></p>
+<p class="p5"><span class="s1">... <span class="Apple-converted-space">    </span>return sorted(list(x))</span></p>
+<p class="p6"><span class="s1"></span><br></p>
+<p class="p6"><span class="s1"></span><br></p>
+<p class="p5"><span class="s1">&gt;&gt;&gt; a = set('abracadabra')<span class="Apple-converted-space">                  </span># form a set from a string</span></p>
+<p class="p5"><span class="s1">&gt;&gt;&gt; 'z' in a<span class="Apple-converted-space">                                </span># fast membership testing</span></p>
+<p class="p5"><span class="s1">False</span></p>
+<p class="p5"><span class="s1">&gt;&gt;&gt; sl(a) <span class="Apple-converted-space">                                  </span># unique letters in a</span></p>
+<p class="p5"><span class="s1">['a', 'b', 'c', 'd', 'r']</span></p>
+<p class="p6"><span class="s1"></span><br></p>
+<p class="p5"><span class="s1">&gt;&gt;&gt; b = set('alacazam') <span class="Apple-converted-space">                    </span># form a second set</span></p>
+<p class="p5"><span class="s1">&gt;&gt;&gt; sl(a - b) <span class="Apple-converted-space">                              </span># letters in a but not in b</span></p>
+<p class="p5"><span class="s1">['b', 'd', 'r']</span></p>
+<p class="p5"><span class="s1">&gt;&gt;&gt; sl(a | b) <span class="Apple-converted-space">                              </span># letters in either a or b</span></p>
+<p class="p5"><span class="s1">['a', 'b', 'c', 'd', 'l', 'm', 'r', 'z']</span></p>
+<p class="p5"><span class="s1">&gt;&gt;&gt; sl(a &amp; b) <span class="Apple-converted-space">                              </span># letters in both a and b</span></p>
+<p class="p5"><span class="s1">['a', 'c']</span></p>
+<p class="p5"><span class="s1">&gt;&gt;&gt; sl(a ^ b) <span class="Apple-converted-space">                              </span># letters in a or b but not both</span></p>
+<p class="p5"><span class="s1">['b', 'd', 'l', 'm', 'r', 'z']</span></p>
+<p class="p6"><span class="s1"></span><br></p>
+<p class="p6"><span class="s1"></span><br></p>
+<p class="p5"><span class="s1">&gt;&gt;&gt; a.add('z')<span class="Apple-converted-space">                              </span># add a new element</span></p>
+<p class="p5"><span class="s1">&gt;&gt;&gt; a.update('wxy') <span class="Apple-converted-space">                        </span># add multiple new elements</span></p>
+<p class="p5"><span class="s1">&gt;&gt;&gt; sl(a)</span></p>
+<p class="p5"><span class="s1">['a', 'b', 'c', 'd', 'r', 'w', 'x', 'y', 'z']</span></p>
+<p class="p5"><span class="s1">&gt;&gt;&gt; a.remove('x') <span class="Apple-converted-space">                          </span># take one element out</span></p>
+<p class="p5"><span class="s1">&gt;&gt;&gt; sl(a)</span></p>
+<p class="p5"><span class="s1">['a', 'b', 'c', 'd', 'r', 'w', 'y', 'z']</span></p>
+<p class="p6"><span class="s1"></span><br></p>
+<p class="p5"><span class="s1">&gt;&gt;&gt; weighted_sample_with_replacement([], [], 0)</span></p>
+<p class="p5"><span class="s1">[]</span></p>
+<p class="p5"><span class="s1">&gt;&gt;&gt; weighted_sample_with_replacement('a', [3], 2)</span></p>
+<p class="p5"><span class="s1">['a', 'a']</span></p>
+<p class="p5"><span class="s1">&gt;&gt;&gt; weighted_sample_with_replacement('ab', [0, 3], 3)</span></p>
+<p class="p5"><span class="s1">['b', 'b', 'b']</span></p>
+<p class="p5"><span class="s1">"""</span></p>
+<p class="p6"><span class="s1"></span><br></p>
+<p class="p7"><span class="s1">__doc__ <b>+= </b>random_tests<b>(</b></span><span class="s5">"""</span></p>
+<p class="p5"><span class="s1">&gt;&gt;&gt; weighted_sample_with_replacement(range(10), [x*x for x in range(10)], 3)</span></p>
+<p class="p5"><span class="s1">[8, 9, 6]</span></p>
+<p class="p5"><span class="s1">"""</span><span class="s6"><b>)</b></span></p>
+<p class="p8"><span class="s1"></span><br></p>
+<p class="p8"><span class="s1"><span class="Apple-converted-space">    </span></span></p>
+</body>
+</html>
